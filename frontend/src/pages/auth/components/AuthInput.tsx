@@ -20,7 +20,7 @@ export default function AuthInput(props: AuthInputProps) {
         <input
           type={type}
           placeholder={placeholder}
-          className="w-full text-base focus:outline-none bg-inherit"
+          className="w-full text-base focus:outline-none bg-inherit text-primary-text"
           autoComplete="off"
           {...register}
         />
