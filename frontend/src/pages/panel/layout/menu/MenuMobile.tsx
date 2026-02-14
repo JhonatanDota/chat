@@ -1,5 +1,6 @@
-import { FiMenu, FiX } from "react-icons/fi";
 import { FaWallet } from "react-icons/fa";
+import { FiMenu, FiX } from "react-icons/fi";
+
 import MenuItems from "./MenuItems";
 
 type MenuMobileProps = {

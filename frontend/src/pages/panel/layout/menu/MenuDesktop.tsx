@@ -1,4 +1,5 @@
 import { FaWallet } from "react-icons/fa";
+
 import MenuItems from "./MenuItems";
 
 export default function MenuDesktop() {

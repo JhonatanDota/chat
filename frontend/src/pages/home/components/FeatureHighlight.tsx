@@ -12,10 +12,10 @@ export default function FeatureHighlight(props: FeatureHighlightProps) {
   return (
     <div className="flex flex-col items-center gap-3 text-center">
       <Icon className="w-16 h-16 md:w-20 md:h-20 fill-orange-400" />
-      <p className="text-2xl md:text-3xl uppercase font-bold text-white">
+      <p className="text-2xl font-bold text-white uppercase md:text-3xl">
         {title}
       </p>
-      <p className="text-base md:text-xl font-semibold text-slate-300">
+      <p className="text-base font-semibold md:text-xl text-slate-300">
         {text}
       </p>
     </div>

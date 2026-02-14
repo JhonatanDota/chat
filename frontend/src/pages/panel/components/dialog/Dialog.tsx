@@ -15,7 +15,7 @@ export default function Dialog(props: DialogProps) {
       <div className="relative flex flex-col gap-3 w-full max-w-lg bg-primary border-[1px] border-secondary rounded-md p-6 shadow-lg">
         <button
           onClick={close}
-          className="absolute right-4 top-4 opacity-80 hover:opacity-100 font-bold"
+          className="absolute font-bold right-4 top-4 opacity-80 hover:opacity-100"
         >
           <RiCloseLargeFill />
         </button>

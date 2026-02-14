@@ -3,53 +3,53 @@
 @tailwind utilities;
 
 :root {
-    --color-background: #020436;
+  --color-background: #020436;
 
-    --color-primary: #050746;
-    --color-secondary: #0f1385;
-    --color-tertiary: #2d56d1;
-    --color-quaternary: #3A4A7A;
+  --color-primary: #050746;
+  --color-secondary: #0f1385;
+  --color-tertiary: #2d56d1;
+  --color-quaternary: #3a4a7a;
 
-    --color-muted: #0203238e;
+  --color-muted: #0203238e;
 
-    --color-primary-text: #FFFFFF;
-    --color-secondary-text: #C4C4C4;
+  --color-primary-text: #ffffff;
+  --color-secondary-text: #c4c4c4;
 
-    --color-success: #17833f;
-    --color-error: #f33535;
-    --color-warning: #ec7a2f;
+  --color-success: #17833f;
+  --color-error: #f33535;
+  --color-warning: #ec7a2f;
 }
 
 body {
-    background-color: var(--color-background);
+  background-color: var(--color-background);
 }
 
 .form {
-    @apply flex flex-col gap-3;
+  @apply flex flex-col gap-3;
 }
 
 .input-container {
-    @apply flex flex-col gap-2;
+  @apply flex flex-col gap-2;
 }
 
 .input-label {
-    @apply text-sm font-medium leading-none text-primary-text;
+  @apply text-sm font-medium leading-none text-primary-text;
 }
 
 .input {
-    @apply flex w-full cursor-pointer text-primary-text bg-primary rounded-md border-[1.5px] border-secondary p-3 text-sm focus:outline-none disabled:cursor-not-allowed disabled:opacity-50;
+  @apply flex w-full cursor-pointer text-primary-text bg-primary rounded-md border-[1.5px] border-secondary p-3 text-sm focus:outline-none disabled:cursor-not-allowed disabled:opacity-50;
 }
 
 .error-message {
-    @apply text-xs font-medium text-error;
+  @apply text-xs font-medium text-error;
 }
 
 .actions-buttons-container {
-    @apply grid grid-cols-3 gap-2;
+  @apply grid grid-cols-3 gap-2;
 }
 
 .base-action-button {
-    @apply text-sm px-3 md:px-3.5 py-1.5 md:py-2 font-medium rounded-md text-primary-text disabled:cursor-not-allowed disabled:animate-pulse;
+  @apply text-sm px-3 md:px-3.5 py-1.5 md:py-2 font-medium rounded-md text-primary-text disabled:cursor-not-allowed disabled:animate-pulse;
 }
 
 .button-action {
@@ -57,21 +57,21 @@ body {
 }
 
 .button-cancel-action {
-    @apply base-action-button border-secondary border-[1px] hover:bg-secondary transition-colors;
+  @apply base-action-button border-secondary border-[1px] hover:bg-secondary transition-colors;
 }
 
 .button-action-table {
-    @apply base-action-button px-2 md:px-2.5 py-1 md:py-1.5  hover:bg-secondary transition-colors;
+  @apply base-action-button px-2 md:px-2.5 py-1 md:py-1.5  hover:bg-secondary transition-colors;
 }
 
-.button-logout{
-    @apply mt-auto mb-2 base-action-button bg-secondary;
+.button-logout {
+  @apply mt-auto mb-2 base-action-button bg-secondary;
 }
 
 .tag-container {
-    @apply px-2 py-1 text-xs font-medium rounded-full text-primary-text text-nowrap;
+  @apply px-2 py-1 text-xs font-medium rounded-full text-primary-text text-nowrap;
 }
 
-.button-pagination{
-    @apply flex items-center gap-1 px-3 py-1 font-bold rounded text-primary-text disabled:opacity-50;
+.button-pagination {
+  @apply flex items-center gap-1 px-3 py-1 font-bold rounded text-primary-text disabled:opacity-50;
 }

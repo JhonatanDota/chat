@@ -1,14 +1,13 @@
 import { AxiosResponse } from "axios";
 
-import { requester } from "./config";
-
 import {
   AuthModel,
-  RegisterModel,
-  SuccessAuthModel,
   ForgotPasswordModel,
+  RegisterModel,
   ResetPasswordModel,
+  SuccessAuthModel,
 } from "../models/authModels";
+import { requester } from "./config";
 
 const AUTH: string = "auth";
 const REGISTER: string = "register";

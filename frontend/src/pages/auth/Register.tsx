@@ -1,29 +1,21 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-
 import { useForm } from "react-hook-form";
-
+import toast from "react-hot-toast";
+import { MdEmail, MdLock, MdLockReset, MdPerson2 } from "react-icons/md";
 import { Link } from "react-router-dom";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-
-import { handleErrors } from "../../requests/handleErrors";
-
+import { BrandIcon } from "../../components/BrandIcon";
 import { register as registerRequest } from "../../requests/authRequests";
-
-import toast from "react-hot-toast";
-
+import { handleErrors } from "../../requests/handleErrors";
 import {
-  RegisterSchemaType,
   registerSchemaData,
+  RegisterSchemaType,
 } from "../../schemas/auth/registerSchema";
-
-import { MdPerson2, MdEmail, MdLock, MdLockReset } from "react-icons/md";
-
-import AuthSectionContainer from "./AuthSectionContainer";
 import AuthForm from "./AuthForm";
+import AuthSectionContainer from "./AuthSectionContainer";
 import AuthInput from "./components/AuthInput";
 import AuthSubmitButton from "./components/AuthSubmitButton";
-import { BrandIcon } from "../../components/BrandIcon";
 
 export default function Register() {
   const {

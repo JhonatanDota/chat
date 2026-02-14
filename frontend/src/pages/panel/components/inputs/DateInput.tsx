@@ -1,9 +1,10 @@
-import { Controller, Control } from "react-hook-form";
-import { pt } from "date-fns/locale";
 import "react-day-picker/dist/style.css";
-import { parseDate, toISOString, toISOStringBr } from "../../../../utils/date";
 
+import { pt } from "date-fns/locale";
 import { DayPicker } from "react-day-picker";
+import { Control, Controller } from "react-hook-form";
+
+import { parseDate, toISOString, toISOStringBr } from "../../../../utils/date";
 import Popover from "../popover/Popover";
 
 interface DateInputProps {
@@ -37,7 +38,7 @@ export default function DateInput(props: DateInputProps) {
                   locale={pt}
                   defaultMonth={value ? parseDate(value) : undefined}
                   selected={valueIso}
-                  className="text-primary-text p-2"
+                  className="p-2 text-primary-text"
                   classNames={{
                     today: "border-success",
                     selected: "bg-success rounded-lg",
@@ -50,7 +51,7 @@ export default function DateInput(props: DateInputProps) {
 
                 <button
                   type="button"
-                  className="m-1 text-error font-bold text-sm self-end"
+                  className="self-end m-1 text-sm font-bold text-error"
                   onClick={() => {
                     field.onChange(undefined);
                   }}

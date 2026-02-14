@@ -1,9 +1,9 @@
-import { IconType } from "react-icons";
 import { UseFormRegisterReturn } from "react-hook-form";
+import { IconType } from "react-icons";
 
 type InputType = "text" | "email" | "password";
 
-interface AuthInput {
+interface AuthInputProps {
   type: InputType;
   placeholder: string;
   icon: IconType;
@@ -11,7 +11,7 @@ interface AuthInput {
   register: UseFormRegisterReturn;
 }
 
-export default function AuthInput(props: AuthInput) {
+export default function AuthInput(props: AuthInputProps) {
   const { type, placeholder, icon: Icon, error, register } = props;
   return (
     <div className="flex flex-col gap-2">

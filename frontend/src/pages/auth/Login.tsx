@@ -1,28 +1,21 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-
 import { useForm } from "react-hook-form";
-
+import { MdEmail, MdLock } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-
-import { handleErrors } from "../../requests/handleErrors";
-
+import { BrandIcon } from "../../components/BrandIcon";
+import { handleSuccessAuth } from "../../functions/auth";
 import { auth } from "../../requests/authRequests";
-
+import { handleErrors } from "../../requests/handleErrors";
 import {
-  LoginSchemaType,
   loginSchemaData,
+  LoginSchemaType,
 } from "../../schemas/auth/loginSchema";
-
-import { MdEmail, MdLock } from "react-icons/md";
-
-import AuthSectionContainer from "./AuthSectionContainer";
 import AuthForm from "./AuthForm";
+import AuthSectionContainer from "./AuthSectionContainer";
 import AuthInput from "./components/AuthInput";
 import AuthSubmitButton from "./components/AuthSubmitButton";
-import { handleSuccessAuth } from "../../functions/auth";
-import { BrandIcon } from "../../components/BrandIcon";
 
 export default function Login() {
   const {

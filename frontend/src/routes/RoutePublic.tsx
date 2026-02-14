@@ -1,4 +1,5 @@
 import { Navigate } from "react-router-dom";
+
 import { getToken } from "../functions/auth";
 
 interface RouteGuardProps {

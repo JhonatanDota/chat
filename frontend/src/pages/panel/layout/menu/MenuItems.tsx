@@ -1,14 +1,10 @@
+import { FiGrid, FiRepeat, FiTag } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
 import { removeToken } from "../../../../functions/auth";
-
 import { logout } from "../../../../requests/authRequests";
-
 import { handleErrors } from "../../../../requests/handleErrors";
-
 import MenuItem from "./MenuItem";
-
-import { FiGrid, FiRepeat, FiTag } from "react-icons/fi";
 
 interface MenuItemsProps {
   onNavigate?: () => void;

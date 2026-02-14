@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-import { USER_MIN_NAME_LENGTH } from "../../rules/api/userRules";
 import { MIN_PASSWORD_LENGTH } from "../../rules/api/authRules";
+import { USER_MIN_NAME_LENGTH } from "../../rules/api/userRules";
 
 export const registerSchemaData = z
   .object({
