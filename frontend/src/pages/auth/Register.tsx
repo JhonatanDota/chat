@@ -22,8 +22,8 @@ import { MdPerson2, MdEmail, MdLock, MdLockReset } from "react-icons/md";
 import AuthSectionContainer from "./AuthSectionContainer";
 import AuthForm from "./AuthForm";
 import AuthInput from "./components/AuthInput";
-import AuthPageTitle from "./components/AuthPageTitle";
 import AuthSubmitButton from "./components/AuthSubmitButton";
+import { BrandIcon } from "../../components/BrandIcon";
 
 export default function Register() {
   const {
@@ -55,14 +55,15 @@ export default function Register() {
   return (
     <AuthSectionContainer>
       <AuthForm onSubmit={handleSubmit(onSubmit)}>
-        <AuthPageTitle title="Registrar-se" barColor="#F97316" />
+        <div className="flex justify-center">
+          <BrandIcon />
+        </div>
 
         <div className="flex flex-col gap-3">
           <AuthInput
             type="text"
             placeholder="Nome"
             icon={MdPerson2}
-            iconFillColor="#7D2AE8"
             error={errors.name?.message}
             register={register("name")}
           />
@@ -71,7 +72,6 @@ export default function Register() {
             type="email"
             placeholder="Email"
             icon={MdEmail}
-            iconFillColor="#7D2AE8"
             error={errors.email?.message}
             register={register("email")}
           />
@@ -80,7 +80,6 @@ export default function Register() {
             type="password"
             placeholder="Senha"
             icon={MdLock}
-            iconFillColor="#7D2AE8"
             error={errors.password?.message}
             register={register("password")}
           />
@@ -89,21 +88,16 @@ export default function Register() {
             type="password"
             placeholder="Confirme a senha"
             icon={MdLockReset}
-            iconFillColor="#7D2AE8"
             error={errors.passwordConfirmation?.message}
             register={register("passwordConfirmation")}
           />
         </div>
 
-        <AuthSubmitButton
-          text="Registrar"
-          bgColor="#F97316"
-          disabled={registering}
-        />
+        <AuthSubmitButton text="Registrar" disabled={registering} />
 
-        <span className="text-center text-sm">
+        <span className="text-sm text-center text-secondary-text">
           Já tem uma conta?{" "}
-          <Link className="font-extrabold text-[#F97316]" to="/login">
+          <Link className="font-bold text-primary-text" to="/login">
             Faça o Login!
           </Link>
         </span>

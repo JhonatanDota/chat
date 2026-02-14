@@ -20,9 +20,9 @@ import { MdEmail, MdLock } from "react-icons/md";
 import AuthSectionContainer from "./AuthSectionContainer";
 import AuthForm from "./AuthForm";
 import AuthInput from "./components/AuthInput";
-import AuthPageTitle from "./components/AuthPageTitle";
 import AuthSubmitButton from "./components/AuthSubmitButton";
 import { handleSuccessAuth } from "../../functions/auth";
+import { BrandIcon } from "../../components/BrandIcon";
 
 export default function Login() {
   const {
@@ -54,14 +54,15 @@ export default function Login() {
   return (
     <AuthSectionContainer>
       <AuthForm onSubmit={handleSubmit(onSubmit)}>
-        <AuthPageTitle title="Login" barColor="#7D2AE8" />
+        <div className="flex justify-center">
+          <BrandIcon />
+        </div>
 
         <div className="flex flex-col gap-3">
           <AuthInput
             type="email"
             placeholder="Por favor, insira seu email"
             icon={MdEmail}
-            iconFillColor="#F97316"
             error={errors.email?.message}
             register={register("email")}
           />
@@ -70,22 +71,19 @@ export default function Login() {
             type="password"
             placeholder="Por favor, insira sua senha"
             icon={MdLock}
-            iconFillColor="#F97316"
             error={errors.password?.message}
             register={register("password")}
           />
         </div>
 
-        <AuthSubmitButton text="Entrar" bgColor="#7D2AE8" disabled={logging} />
+        <AuthSubmitButton text="Entrar" disabled={logging} />
 
-        <div className="flex flex-col items-center text-sm">
-          <span>
-            Ainda não tem uma conta?{" "}
-            <Link className="font-extrabold text-[#F97316]" to="/register">
-              Registre-se!
-            </Link>
-          </span>
-        </div>
+        <span className="text-sm text-center text-secondary-text">
+          Ainda não tem uma conta?{" "}
+          <Link className="font-extrabold text-primary-text" to="/register">
+            Registre-se!
+          </Link>
+        </span>
       </AuthForm>
     </AuthSectionContainer>
   );

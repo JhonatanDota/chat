@@ -9,7 +9,7 @@ export default function AuthForm(props: AuthFormProps) {
   return (
     <form
       onSubmit={onSubmit}
-      className="flex flex-col p-4 md:p-6 gap-6 w-full max-w-md rounded-md bg-white"
+      className="flex flex-col w-full max-w-md gap-6 p-4 rounded-md md:p-6"
     >
       {props.children}
     </form>

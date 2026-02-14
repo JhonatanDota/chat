@@ -16,7 +16,7 @@
     --color-secondary-text: #C4C4C4;
 
     --color-success: #17833f;
-    --color-error: #f52525;
+    --color-error: #f33535;
     --color-warning: #ec7a2f;
 }
 
@@ -41,7 +41,7 @@ body {
 }
 
 .error-message {
-    @apply text-xs text-error font-medium;
+    @apply text-xs font-medium text-error;
 }
 
 .actions-buttons-container {
@@ -53,7 +53,7 @@ body {
 }
 
 .button-action {
-  @apply base-action-button  bg-tertiary hover:opacity-80 transition-opacity;
+  @apply transition-opacity base-action-button bg-tertiary hover:opacity-80;
 }
 
 .button-cancel-action {
@@ -65,13 +65,13 @@ body {
 }
 
 .button-logout{
-    @apply base-action-button bg-secondary mt-auto mb-2;
+    @apply mt-auto mb-2 base-action-button bg-secondary;
 }
 
 .tag-container {
-    @apply px-2 py-1 rounded-full text-xs font-medium text-primary-text text-nowrap;
+    @apply px-2 py-1 text-xs font-medium rounded-full text-primary-text text-nowrap;
 }
 
 .button-pagination{
-    @apply flex items-center gap-1 px-3 py-1 text-primary-text font-bold rounded disabled:opacity-50;
+    @apply flex items-center gap-1 px-3 py-1 font-bold rounded text-primary-text disabled:opacity-50;
 }
