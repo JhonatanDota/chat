@@ -1,6 +1,6 @@
-import { FaWallet } from "react-icons/fa";
 import { FiMenu, FiX } from "react-icons/fi";
 
+import { BrandIcon } from "../../../../components/BrandIcon";
 import MenuItems from "./MenuItems";
 
 type MenuMobileProps = {
@@ -12,7 +12,7 @@ export default function MenuMobile(props: MenuMobileProps) {
   const { mobileOpen, setMobileOpen } = props;
   return (
     <>
-      <div className="flex md:hidden items-center justify-between h-14 px-2">
+      <div className="flex items-center justify-between px-2 md:hidden h-14">
         <button
           onClick={() => setMobileOpen(true)}
           className="p-2 rounded hover:bg-gray-700"
@@ -35,13 +35,13 @@ export default function MenuMobile(props: MenuMobileProps) {
             ${mobileOpen ? "translate-x-0" : "-translate-x-full"}`}
         >
           <div className="flex items-center justify-between h-16 px-4 border-b-2 border-secondary">
-            <FaWallet className="h-4 w-4" />
+            <BrandIcon size="xs" />
             <span className="text-base font-bold">Chat</span>
             <button
               onClick={() => setMobileOpen(false)}
               className="p-2 rounded hover:bg-gray-700"
             >
-              <FiX className="h-5 w-5" />
+              <FiX className="w-5 h-5" />
             </button>
           </div>
           <MenuItems onNavigate={() => setMobileOpen(false)} />

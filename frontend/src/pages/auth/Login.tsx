@@ -36,7 +36,7 @@ export default function Login() {
       const loginResponse = await auth(data);
 
       handleSuccessAuth(loginResponse.data);
-      navigate("/dashboard");
+      navigate("/conversation");
     } catch (error) {
       handleErrors(error);
     } finally {

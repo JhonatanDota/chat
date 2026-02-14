@@ -4,6 +4,7 @@ import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import Home from "../pages/home/Home";
 import PanelLayout from "../pages/panel/layout/PanelLayout";
+import Conversation from "../pages/panel/sections/conversation/Conversation";
 import RouteGuard from "./RouteGuard";
 import RoutePublic from "./RoutePublic";
 
@@ -34,7 +35,9 @@ export default function Routes() {
             <PanelLayout />
           </RouteGuard>
         }
-      ></Route>
+      >
+        <Route path="/conversation" element={<Conversation />} />
+      </Route>
     </RouterDomRoutes>
   );
 }

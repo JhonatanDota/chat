@@ -1,10 +1,14 @@
 import { RiChat3Line } from "react-icons/ri";
 
 interface BrandIconProps {
-  size?: "sm" | "md" | "lg";
+  size?: "xs" | "sm" | "md" | "lg";
 }
 
 const sizes = {
+  xs: {
+    container: "w-8 h-8 p-2",
+    icon: "w-4 h-4",
+  },
   sm: {
     container: "w-10 h-10 p-2",
     icon: "w-5 h-5",

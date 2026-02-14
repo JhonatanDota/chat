@@ -1,4 +1,4 @@
-import { FiGrid, FiRepeat, FiTag } from "react-icons/fi";
+import { MdChatBubble } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
 import { removeToken } from "../../../../functions/auth";
@@ -16,9 +16,7 @@ export default function MenuItems(props: MenuItemsProps) {
   const navigate = useNavigate();
 
   const items = [
-    { name: "Dashboard", path: "/dashboard", icon: <FiGrid /> },
-    { name: "Categorias", path: "/categories", icon: <FiTag /> },
-    { name: "Transações", path: "/transactions", icon: <FiRepeat /> },
+    { name: "Conversas", path: "/conversation", icon: <MdChatBubble /> },
   ];
 
   async function handleLogout() {
@@ -32,7 +30,7 @@ export default function MenuItems(props: MenuItemsProps) {
   }
 
   return (
-    <nav className="flex flex-col gap-2 px-3 h-full">
+    <nav className="flex flex-col h-full gap-2 px-3">
       {items.map((item) => (
         <MenuItem
           key={item.path}
