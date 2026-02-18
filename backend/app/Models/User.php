@@ -4,17 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
-
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 use App\Notifications\ResetPasswordNotification;
-
-use App\Enums\CategoryTypesEnum;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -94,24 +89,4 @@ class User extends Authenticatable implements JWTSubject
     // =========================================================================
     // Relationships
     // =========================================================================
-
-    public function categories(): HasMany
-    {
-        return $this->hasMany(Category::class);
-    }
-
-    public function transactions(): HasManyThrough
-    {
-        return $this->HasManyThrough(Transaction::class, Category::class);
-    }
-
-    public function incomeTransactions(): HasManyThrough
-    {
-        return $this->transactions()->where('type', CategoryTypesEnum::INCOME);
-    }
-
-    public function expenseTransactions(): HasManyThrough
-    {
-        return $this->transactions()->where('type', CategoryTypesEnum::EXPENSE);
-    }
 }
