@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FriendshipController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,4 +31,14 @@ Route::prefix('password')->group(function () {
 Route::group(['middleware' => ['jwt.auth']], function () {
     Route::get('/me', [AuthController::class, 'me']);
     Route::post('/logout', [AuthController::class, 'logout']);
+});
+
+// =========================================================================
+// Friendship
+// =========================================================================
+
+Route::group(['middleware' => ['jwt.auth']], function () {
+    Route::prefix('friendships')->group(function () {
+        Route::post('/request', [FriendshipController::class, 'request']);
+    });
 });

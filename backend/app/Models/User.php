@@ -11,6 +11,8 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 use App\Notifications\ResetPasswordNotification;
 
+use App\Enums\FriendshipRequestStatusEnum;
+
 class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
@@ -89,4 +91,14 @@ class User extends Authenticatable implements JWTSubject
     // =========================================================================
     // Relationships
     // =========================================================================
+
+    public function sendedFriendshipRequests()
+    {
+        return $this->hasMany(FriendshipRequest::class, 'from_user_id');
+    }
+
+    public function pendingSendedFriendshipRequests()
+    {
+        return $this->sendedFriendshipRequests()->where('status', FriendshipRequestStatusEnum::PENDING->value);
+    }
 }
