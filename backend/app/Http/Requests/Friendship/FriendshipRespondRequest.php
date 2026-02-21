@@ -4,11 +4,12 @@ namespace App\Http\Requests\Friendship;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Contracts\Validation\Validator;
 
-use Illuminate\Validation\Rule;
+use App\Enums\FriendshipRequestStatusEnum;
 
-class CreateFriendshipRequest extends FormRequest
+class FriendshipRespondRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -17,7 +18,7 @@ class CreateFriendshipRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return $this->user()->can('respond', $this->route('friendshipRequest'));
     }
 
     /**
@@ -28,7 +29,10 @@ class CreateFriendshipRequest extends FormRequest
     public function rules()
     {
         return [
-            'to_user_id' => ['required', Rule::exists('users', 'id')],
+            'status' => ['required', Rule::in([
+                FriendshipRequestStatusEnum::ACCEPTED->value,
+                FriendshipRequestStatusEnum::DECLINED->value,
+            ])],
         ];
     }
 
@@ -41,18 +45,10 @@ class CreateFriendshipRequest extends FormRequest
     public function withValidator(Validator $validator)
     {
         $validator->after(function (Validator $validator) {
-            $user = $this->user();
-            $toUserId = $this->input('to_user_id');
+            $friendshipRequest = $this->route('friendshipRequest');
 
-            if ($user->id === $toUserId) {
-                $validator->errors()->add('to_user_id', 'Não é possível enviar uma solicitação de amizade para você mesmo.');
-                return;
-            }
-
-            $hasPendingFriendshipRequest = $user->pendingSendedFriendshipRequests()->where('to_user_id', $toUserId)->exists();
-
-            if ($hasPendingFriendshipRequest) {
-                $validator->errors()->add('to_user_id', 'Você já possui uma solicitação de amizade pendente com esse usuário.');
+            if (!$friendshipRequest->isPending()) {
+                $validator->errors()->add('to_user_id', 'Essa solicitação de amizade já foi respondida.');
                 return;
             }
         });
@@ -66,8 +62,8 @@ class CreateFriendshipRequest extends FormRequest
     public function messages()
     {
         return [
-            'to_user_id.required' => 'O campo to_user_id é obrigatório.',
-            'to_user_id.exists' => 'O usuário informado não existe.',
+            'status.required' => 'O campo status é obrigatório.',
+            'status.in' => 'O campo status é inválido.',
         ];
     }
 }

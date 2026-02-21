@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Enums\FriendshipRequestStatusEnum;
+
 class FriendshipRequest extends Model
 {
     use HasFactory;
@@ -20,4 +22,13 @@ class FriendshipRequest extends Model
         'status',
         'responded_at',
     ];
+
+    // =========================================================================
+    // Helpers
+    // =========================================================================
+
+    public function isPending()
+    {
+        return $this->status == FriendshipRequestStatusEnum::PENDING->value;
+    }
 }

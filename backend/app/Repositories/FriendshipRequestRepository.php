@@ -10,4 +10,11 @@ class FriendshipRequestRepository
     {
         return FriendshipRequest::create($data)->refresh();
     }
+
+    public function update(FriendshipRequest $friendshipRequest, array $data)
+    {
+        $friendshipRequest->update($data);
+
+        return $friendshipRequest->refresh();
+    }
 }

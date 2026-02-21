@@ -23,4 +23,16 @@ class FriendshipRequestFactory extends Factory
             'status' => FriendshipRequestStatusEnum::PENDING->value,
         ];
     }
+
+    /**
+     * Set friendship factory to accepted
+     *
+     * @return self
+     */
+    public function accepted(): self
+    {
+        return $this->state(fn() => [
+            'status' => FriendshipRequestStatusEnum::ACCEPTED->value,
+        ]);
+    }
 }

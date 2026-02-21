@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('from_user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('to_user_id')->constrained('users')->onDelete('cascade');
-            $table->enum('status', ['PENDING', 'ACCEPTED', 'REJECTED'])->default('PENDING');
+            $table->enum('status', ['PENDING', 'ACCEPTED', 'DECLINED'])->default('PENDING');
             $table->datetime('responded_at')->nullable();
             $table->timestamps();
         });
