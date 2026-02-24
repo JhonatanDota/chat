@@ -2,7 +2,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { MdEmail, MdLock, MdLockReset, MdPerson2 } from "react-icons/md";
+import {
+  MdAccountCircle,
+  MdEmail,
+  MdLock,
+  MdLockReset,
+  MdPerson2,
+} from "react-icons/md";
 import { Link } from "react-router-dom";
 
 import { BrandIcon } from "../../components/BrandIcon";
@@ -66,6 +72,14 @@ export default function Register() {
             icon={MdEmail}
             error={errors.email?.message}
             register={register("email")}
+          />
+
+          <AuthInput
+            type="text"
+            placeholder="Username"
+            icon={MdAccountCircle}
+            error={errors.username?.message}
+            register={register("username")}
           />
 
           <AuthInput

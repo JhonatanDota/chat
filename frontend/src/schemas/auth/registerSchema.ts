@@ -2,6 +2,7 @@ import { z } from "zod";
 
 import { MIN_PASSWORD_LENGTH } from "../../rules/api/authRules";
 import { USER_MIN_NAME_LENGTH } from "../../rules/api/userRules";
+import { usernameSchema } from "../customs/usernameSchema";
 
 export const registerSchemaData = z
   .object({
@@ -13,6 +14,7 @@ export const registerSchemaData = z
         `O nome deve ter pelo menos ${USER_MIN_NAME_LENGTH} caracteres`
       ),
     email: z.string().nonempty("O email é obrigatório").email("Email inválido"),
+    username: usernameSchema,
     password: z
       .string()
       .nonempty("A senha é obrigatória")
