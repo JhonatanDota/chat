@@ -12,6 +12,7 @@ use App\Http\Resources\User\UserResource;
 
 use App\Rules\Fields\User\NameRules;
 use App\Rules\Fields\User\PasswordRules;
+use App\Rules\Fields\User\UsernameRules;
 use App\Rules\Fields\Commom\EmailRules;
 
 class RegisterTest extends TestCase
@@ -22,6 +23,7 @@ class RegisterTest extends TestCase
 
         $response = $this->json('POST', 'api/register/', [
             'email' => $this->faker->email(),
+            'username' => $this->faker->userName(),
             'password' => $password,
             'password_confirmation' => $password,
         ]);
@@ -40,6 +42,7 @@ class RegisterTest extends TestCase
         $response = $this->json('POST', 'api/register/', [
             'name' => Str::random(NameRules::MIN_LENGTH - 1),
             'email' => $this->faker->email(),
+            'username' => $this->faker->userName(),
             'password' => $password,
             'password_confirmation' => $password,
         ]);
@@ -58,6 +61,7 @@ class RegisterTest extends TestCase
         $response = $this->json('POST', 'api/register/', [
             'name' => Str::random(NameRules::MAX_LENGTH + 1),
             'email' => $this->faker->email(),
+            'username' => $this->faker->userName(),
             'password' => $password,
             'password_confirmation' => $password,
         ]);
@@ -75,6 +79,7 @@ class RegisterTest extends TestCase
 
         $response = $this->json('POST', 'api/register/', [
             'name' => $this->faker->name(),
+            'username' => $this->faker->userName(),
             'password' => $password,
             'password_confirmation' => $password,
         ]);
@@ -93,6 +98,7 @@ class RegisterTest extends TestCase
         $response = $this->json('POST', 'api/register/', [
             'name' => $this->faker->name(),
             'email' => 'invalid@mail',
+            'username' => $this->faker->userName(),
             'password' => $password,
             'password_confirmation' => $password,
         ]);
@@ -111,6 +117,7 @@ class RegisterTest extends TestCase
         $response = $this->json('POST', 'api/register/', [
             'name' => $this->faker->name(),
             'email' => Str::random(EmailRules::MAX_LENGTH + 1) . '@mail.com',
+            'username' => $this->faker->userName(),
             'password' => $password,
             'password_confirmation' => $password,
         ]);
@@ -135,6 +142,7 @@ class RegisterTest extends TestCase
         $response = $this->json('POST', 'api/register/', [
             'name' => $this->faker->name(),
             'email' => $email,
+            'username' => $this->faker->userName(),
             'password' => $password,
             'password_confirmation' => $password,
         ]);
@@ -146,11 +154,187 @@ class RegisterTest extends TestCase
         ]);
     }
 
+    public function testTryRegisterWithoutUsername()
+    {
+        $password = $this->faker->password();
+
+        $response = $this->json('POST', 'api/register/', [
+            'name' => $this->faker->name(),
+            'email' => $this->faker->email(),
+            'password' => $password,
+            'password_confirmation' => $password,
+        ]);
+
+        $response->assertUnprocessable();
+
+        $response->assertJsonValidationErrors([
+            'username' => ['The username field is required.'],
+        ]);
+    }
+
+    public function testTryRegisterWithTooTinyUsername()
+    {
+        $password = $this->faker->password();
+
+        $response = $this->json('POST', 'api/register/', [
+            'name' => $this->faker->name(),
+            'email' => $this->faker->email(),
+            'username' => Str::random(UsernameRules::MIN_LENGTH - 1),
+            'password' => $password,
+            'password_confirmation' => $password,
+        ]);
+
+        $response->assertUnprocessable();
+
+        $response->assertJsonValidationErrors([
+            'username' => ['The username field must be at least ' . UsernameRules::MIN_LENGTH . ' characters.'],
+        ]);
+    }
+
+    public function testTryRegisterWithTooLongUsername()
+    {
+        $password = $this->faker->password();
+
+        $response = $this->json('POST', 'api/register/', [
+            'name' => $this->faker->name(),
+            'email' => $this->faker->email(),
+            'username' => Str::random(UsernameRules::MAX_LENGTH + 1),
+            'password' => $password,
+            'password_confirmation' => $password,
+        ]);
+
+        $response->assertUnprocessable();
+
+        $response->assertJsonValidationErrors([
+            'username' => ['The username field must not be greater than ' . UsernameRules::MAX_LENGTH . ' characters.'],
+        ]);
+    }
+
+    public function testTryRegisterWithUsernameStartingWithNumber()
+    {
+        $password = $this->faker->password();
+
+        $response = $this->json('POST', 'api/register/', [
+            'name' => $this->faker->name(),
+            'email' => $this->faker->email(),
+            'username' => '1username',
+            'password' => $password,
+            'password_confirmation' => $password,
+        ]);
+
+        $response->assertUnprocessable();
+
+        $response->assertJsonValidationErrors([
+            'username' => ['The username field format is invalid.'],
+        ]);
+    }
+
+    public function testTryRegisterWithUsernameStartingWithUnderscore()
+    {
+        $password = $this->faker->password();
+
+        $response = $this->json('POST', 'api/register/', [
+            'name' => $this->faker->name(),
+            'email' => $this->faker->email(),
+            'username' => '_username',
+            'password' => $password,
+            'password_confirmation' => $password,
+        ]);
+
+        $response->assertUnprocessable();
+
+        $response->assertJsonValidationErrors([
+            'username' => ['The username field format is invalid.'],
+        ]);
+    }
+
+    public function testTryRegisterWithUsernameStartingWithDot()
+    {
+        $password = $this->faker->password();
+
+        $response = $this->json('POST', 'api/register/', [
+            'name' => $this->faker->name(),
+            'email' => $this->faker->email(),
+            'username' => '.username',
+            'password' => $password,
+            'password_confirmation' => $password,
+        ]);
+
+        $response->assertUnprocessable();
+
+        $response->assertJsonValidationErrors([
+            'username' => ['The username field format is invalid.'],
+        ]);
+    }
+
+    public function testTryRegisterWithUsernameContainingUppercaseLetter()
+    {
+        $password = $this->faker->password();
+
+        $response = $this->json('POST', 'api/register/', [
+            'name' => $this->faker->name(),
+            'email' => $this->faker->email(),
+            'username' => 'userName',
+            'password' => $password,
+            'password_confirmation' => $password,
+        ]);
+
+        $response->assertUnprocessable();
+
+        $response->assertJsonValidationErrors([
+            'username' => ['The username field format is invalid.'],
+        ]);
+    }
+
+    public function testTryRegisterWithDuplicatedUsername()
+    {
+        $username = 'validuser';
+        $password = $this->faker->password();
+
+        User::factory()->create([
+            'username' => $username,
+        ]);
+
+        $response = $this->json('POST', 'api/register/', [
+            'name' => $this->faker->name(),
+            'email' => $this->faker->email(),
+            'username' => $username,
+            'password' => $password,
+            'password_confirmation' => $password,
+        ]);
+
+        $response->assertUnprocessable();
+
+        $response->assertJsonValidationErrors([
+            'username' => ['The username has already been taken.'],
+        ]);
+    }
+
+    public function testTryRegisterWithValidUsername()
+    {
+        $password = $this->faker->password();
+
+        $response = $this->json('POST', 'api/register/', [
+            'name' => $this->faker->name(),
+            'email' => $this->faker->email(),
+            'username' => 'john.doe_123',
+            'password' => $password,
+            'password_confirmation' => $password,
+        ]);
+
+        $response->assertCreated();
+
+        $this->assertDatabaseHas(User::class, [
+            'username' => 'john.doe_123',
+        ]);
+    }
+
     public function testTryRegisterWithoutPassword()
     {
         $response = $this->json('POST', 'api/register/', [
             'name' => $this->faker->name(),
             'email' => $this->faker->email(),
+            'username' => $this->faker->userName(),
         ]);
 
         $response->assertUnprocessable();
@@ -165,6 +349,7 @@ class RegisterTest extends TestCase
         $response = $this->json('POST', 'api/register/', [
             'name' => $this->faker->name(),
             'email' => $this->faker->email(),
+            'username' => $this->faker->userName(),
             'password' => $this->faker->password(),
         ]);
 
@@ -182,6 +367,7 @@ class RegisterTest extends TestCase
         $response = $this->json('POST', 'api/register/', [
             'name' => $this->faker->name(),
             'email' => $this->faker->email(),
+            'username' => $this->faker->userName(),
             'password' => $password,
             'password_confirmation' => $password,
         ]);
@@ -200,6 +386,7 @@ class RegisterTest extends TestCase
         $response = $this->json('POST', 'api/register/', [
             'name' => $this->faker->name(),
             'email' => $this->faker->email(),
+            'username' => $this->faker->userName(),
             'password' => $password,
             'password_confirmation' => $password,
         ]);
@@ -218,6 +405,7 @@ class RegisterTest extends TestCase
         $userData = [
             'name' => $this->faker->name(),
             'email' => $this->faker->email(),
+            'username' => $this->faker->userName(),
             'password' => $password,
             'password_confirmation' => $password,
         ];

@@ -9,6 +9,7 @@ use Illuminate\Validation\Rule;
 use App\Rules\Validations\PatternsValidation;
 use App\Rules\Fields\User\NameRules;
 use App\Rules\Fields\User\PasswordRules;
+use App\Rules\Fields\User\UsernameRules;
 use App\Rules\Fields\Commom\EmailRules;
 
 use App\Models\User;
@@ -35,6 +36,7 @@ class RegisterRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'min:' . NameRules::MIN_LENGTH, 'max:' . NameRules::MAX_LENGTH],
             'email' => ['required', 'string', 'email', 'max:' . EmailRules::MAX_LENGTH, 'regex:' . PatternsValidation::EMAIL_WITH_TLD,  Rule::unique(User::class, 'email')],
+            'username' => ['required', 'string', 'min:' . UsernameRules::MIN_LENGTH, 'max:' . UsernameRules::MAX_LENGTH, 'regex:' . PatternsValidation::USERNAME, Rule::unique(User::class, 'username')],
             'password' => ['required', 'string', 'min:' . PasswordRules::MIN_LENGTH, 'max:' . PasswordRules::MAX_LENGTH, 'confirmed']
         ];
     }
