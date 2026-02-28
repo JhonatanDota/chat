@@ -11,7 +11,7 @@ setup:
 	docker-compose exec backend bash -c "php artisan migrate:fresh"
 
 load:
-	docker-compose exec backend bash -c "php artisan db:seed"
+	docker-compose exec backend bash -c "php artisan db:seed --class=DevelopmentSeeder"
 
 sh:
 	docker-compose exec backend bash
@@ -24,3 +24,6 @@ test-back:
 
 tinker:
 	docker-compose exec backend bash -c "php artisan tinker"
+
+lint-front:
+	docker-compose exec frontend bash -c "npm run lint"
