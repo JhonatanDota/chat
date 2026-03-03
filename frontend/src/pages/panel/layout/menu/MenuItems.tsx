@@ -1,4 +1,4 @@
-import { MdChatBubble } from "react-icons/md";
+import { MdChatBubble, MdGroups } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
 import { removeToken } from "../../../../functions/auth";
@@ -16,7 +16,8 @@ export default function MenuItems(props: MenuItemsProps) {
   const navigate = useNavigate();
 
   const items = [
-    { name: "Conversas", path: "/conversation", icon: <MdChatBubble /> },
+    { name: "Conversas", path: "/conversations", icon: <MdChatBubble /> },
+    { name: "Amigos", path: "/friendships", icon: <MdGroups /> },
   ];
 
   async function handleLogout() {
