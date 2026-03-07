@@ -10,12 +10,12 @@ import FeatureHighlight from "./components/FeatureHighlight";
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center gap-5 p-4 mt-10 md:w-2/3 md:mx-auto md:gap-8">
-      <h3 className="text-4xl font-bold text-center text-white md:text-5x">
+    <div className="mt-10 flex flex-col items-center justify-center gap-5 p-4 md:mx-auto md:w-2/3 md:gap-8">
+      <h3 className="md:text-5x text-center text-4xl font-bold text-white">
         Crie e gerencie cardápios online de forma simples e profissional.
       </h3>
 
-      <div className="grid grid-cols-1 gap-5 mt-5 md:grid-cols-2 md:gap-8">
+      <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-8">
         <FeatureHighlight
           icon={MdRestaurantMenu}
           title="Monte seu cardápio"
@@ -42,7 +42,7 @@ export default function Home() {
       </div>
 
       <Link to="/login">
-        <button className="p-4 text-base font-extrabold text-white uppercase bg-orange-500 rounded-md md:text-lg">
+        <button className="rounded-md bg-orange-500 p-4 text-base font-extrabold uppercase text-white md:text-lg">
           CRIAR MEU CARDÁPIO
         </button>
       </Link>

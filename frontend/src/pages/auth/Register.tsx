@@ -101,7 +101,7 @@ export default function Register() {
 
         <AuthSubmitButton text="Registrar" disabled={registering} />
 
-        <span className="text-sm text-center text-secondary-text">
+        <span className="text-center text-sm text-secondary-text">
           Já tem uma conta?{" "}
           <Link className="font-bold text-primary-text" to="/login">
             Faça o Login!

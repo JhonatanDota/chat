@@ -5,6 +5,6 @@ export default function DialogTitle(props: DialogTitleProps) {
   const { title } = props;
 
   return (
-    <h2 className="text-lg md:text-xl font-bold text-primary-text">{title}</h2>
+    <h2 className="text-lg font-bold text-primary-text md:text-xl">{title}</h2>
   );
 }

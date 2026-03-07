@@ -32,7 +32,7 @@ export default function DateInput(props: DateInputProps) {
               </button>
             }
             content={
-              <div className="flex flex-col p-1 bg-primary border-[1px] border-secondary rounded-md">
+              <div className="flex flex-col rounded-md border-[1px] border-secondary bg-primary p-1">
                 <DayPicker
                   mode="single"
                   locale={pt}
@@ -51,7 +51,7 @@ export default function DateInput(props: DateInputProps) {
 
                 <button
                   type="button"
-                  className="self-end m-1 text-sm font-bold text-error"
+                  className="m-1 self-end text-sm font-bold text-error"
                   onClick={() => {
                     field.onChange(undefined);
                   }}

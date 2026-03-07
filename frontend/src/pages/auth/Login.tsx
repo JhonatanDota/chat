@@ -71,7 +71,7 @@ export default function Login() {
 
         <AuthSubmitButton text="Entrar" disabled={logging} />
 
-        <span className="text-sm text-center text-secondary-text">
+        <span className="text-center text-sm text-secondary-text">
           Ainda não tem uma conta?{" "}
           <Link className="font-extrabold text-primary-text" to="/register">
             Registre-se!

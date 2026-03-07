@@ -31,7 +31,7 @@ export default function MenuItems(props: MenuItemsProps) {
   }
 
   return (
-    <nav className="flex flex-col h-full gap-2 px-3">
+    <nav className="flex h-full flex-col gap-2 px-3">
       {items.map((item) => (
         <MenuItem
           key={item.path}

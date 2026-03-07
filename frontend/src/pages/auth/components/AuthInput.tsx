@@ -15,12 +15,12 @@ export default function AuthInput(props: AuthInputProps) {
   const { type, placeholder, icon: Icon, error, register } = props;
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex items-center gap-1.5 p-2.5 border-secondary border-[1.5px] rounded-lg focus-within:border-tertiary focus-within:shadow-sm transition-colors duration-150">
-        <Icon className="w-7 h-7 fill-primary-text" />
+      <div className="flex items-center gap-1.5 rounded-lg border-[1.5px] border-secondary p-2.5 transition-colors duration-150 focus-within:border-tertiary focus-within:shadow-sm">
+        <Icon className="h-7 w-7 fill-primary-text" />
         <input
           type={type}
           placeholder={placeholder}
-          className="w-full text-base focus:outline-none bg-inherit text-primary-text"
+          className="w-full bg-inherit text-base text-primary-text focus:outline-none"
           autoComplete="off"
           {...register}
         />

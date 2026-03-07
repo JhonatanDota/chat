@@ -12,9 +12,9 @@ export default function Loader(props: LoaderProps) {
   };
 
   return (
-    <div className="flex justify-center items-center p-3">
+    <div className="flex items-center justify-center p-3">
       <div
-        className={`rounded-full border-t-transparent animate-spin ${sizeClasses[size]}`}
+        className={`animate-spin rounded-full border-t-transparent ${sizeClasses[size]}`}
       />
     </div>
   );

@@ -3,8 +3,8 @@ import MenuItems from "./MenuItems";
 
 export default function MenuDesktop() {
   return (
-    <aside className="sticky top-0 flex-col hidden w-56 h-screen gap-3 text-gray-100 md:flex min-w-56 bg-primary">
-      <div className="flex items-center h-16 gap-2 px-4 border-b-2 border-secondary">
+    <aside className="sticky top-0 hidden h-screen w-56 min-w-56 flex-col gap-3 bg-primary text-gray-100 md:flex">
+      <div className="flex h-16 items-center gap-2 border-b-2 border-secondary px-4">
         <BrandIcon size="xs" />
         <span className="text-base font-bold">Chat</span>
       </div>
