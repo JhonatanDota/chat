@@ -13,7 +13,7 @@ class FriendshipRespondTest extends TestCase
     {
         $friendshipRequest = FriendshipRequest::factory()->create();
 
-        $response = $this->json('POST', 'api/friendships/' . $friendshipRequest->id . '/respond/');
+        $response = $this->json('POST', 'api/friendship-requests/' . $friendshipRequest->id . '/respond/');
 
         $response->assertUnauthorized();
     }
@@ -24,7 +24,7 @@ class FriendshipRespondTest extends TestCase
 
         $friendshipRequest = FriendshipRequest::factory()->create();
 
-        $response = $this->json('POST', 'api/friendships/' . $friendshipRequest->id . '/respond/');
+        $response = $this->json('POST', 'api/friendship-requests/' . $friendshipRequest->id . '/respond/');
 
         $response->assertForbidden();
     }
@@ -37,7 +37,7 @@ class FriendshipRespondTest extends TestCase
             'from_user_id' => $this->user->id
         ]);
 
-        $response = $this->json('POST', 'api/friendships/' . $friendshipRequest->id . '/respond/');
+        $response = $this->json('POST', 'api/friendship-requests/' . $friendshipRequest->id . '/respond/');
 
         $response->assertForbidden();
     }
@@ -50,7 +50,7 @@ class FriendshipRespondTest extends TestCase
             'to_user_id' => $this->user->id,
         ]);
 
-        $response = $this->json('POST', 'api/friendships/' . $friendshipRequest->id . '/respond/', [
+        $response = $this->json('POST', 'api/friendship-requests/' . $friendshipRequest->id . '/respond/', [
             'status' => FriendshipRequestStatusEnum::ACCEPTED->value,
         ]);
 
@@ -68,7 +68,7 @@ class FriendshipRespondTest extends TestCase
             'to_user_id' => $this->user->id
         ]);
 
-        $response = $this->json('POST', 'api/friendships/' . $friendshipRequest->id . '/respond/');
+        $response = $this->json('POST', 'api/friendship-requests/' . $friendshipRequest->id . '/respond/');
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors([
@@ -84,7 +84,7 @@ class FriendshipRespondTest extends TestCase
             'to_user_id' => $this->user->id
         ]);
 
-        $response = $this->json('POST', 'api/friendships/' . $friendshipRequest->id . '/respond/', [
+        $response = $this->json('POST', 'api/friendship-requests/' . $friendshipRequest->id . '/respond/', [
             'status' => FriendshipRequestStatusEnum::DECLINED->value,
         ]);
 
@@ -111,7 +111,7 @@ class FriendshipRespondTest extends TestCase
             'to_user_id' => $this->user->id
         ]);
 
-        $response = $this->json('POST', 'api/friendships/' . $friendshipRequest->id . '/respond/', [
+        $response = $this->json('POST', 'api/friendship-requests/' . $friendshipRequest->id . '/respond/', [
             'status' => FriendshipRequestStatusEnum::ACCEPTED->value,
         ]);
 

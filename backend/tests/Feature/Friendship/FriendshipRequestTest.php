@@ -15,7 +15,7 @@ class FriendshipRequestTest extends TestCase
 {
     public function testTryAccessFriendshipRequestRouteNotLogged()
     {
-        $response = $this->json('POST', 'api/friendships/request/');
+        $response = $this->json('POST', 'api/friendship-requests/');
 
         $response->assertUnauthorized();
     }
@@ -24,7 +24,7 @@ class FriendshipRequestTest extends TestCase
     {
         $this->actingAs($this->user);
 
-        $response = $this->json('POST', 'api/friendships/request/', [
+        $response = $this->json('POST', 'api/friendship-requests/', [
             'to_user_id' => 0,
         ]);
 
@@ -38,7 +38,7 @@ class FriendshipRequestTest extends TestCase
     {
         $this->actingAs($this->user);
 
-        $response = $this->json('POST', 'api/friendships/request/', [
+        $response = $this->json('POST', 'api/friendship-requests/', [
             'to_user_id' => $this->user->id,
         ]);
 
@@ -56,7 +56,7 @@ class FriendshipRequestTest extends TestCase
             'from_user_id' => $this->user->id
         ]);
 
-        $response = $this->json('POST', 'api/friendships/request/', [
+        $response = $this->json('POST', 'api/friendship-requests/', [
             'to_user_id' => $friendshipPendingRequest->to_user_id,
         ]);
 
@@ -70,7 +70,7 @@ class FriendshipRequestTest extends TestCase
     {
         $this->actingAs($this->user);
 
-        $response = $this->json('POST', 'api/friendships/request/', [
+        $response = $this->json('POST', 'api/friendship-requests/', [
             'to_user_id' => User::factory()->create()->id,
         ]);
         $responseData = $response->json();
