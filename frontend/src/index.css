@@ -53,7 +53,11 @@ body {
 }
 
 .button-action {
-  @apply transition-opacity base-action-button bg-tertiary hover:opacity-80;
+  @apply whitespace-nowrap transition-opacity base-action-button bg-tertiary hover:opacity-80;
+}
+
+.button-no-action {
+  @apply base-action-button bg-tertiary disabled:opacity-60 disabled:animate-none;
 }
 
 .button-cancel-action {
