@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\UserRepository;
 
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
+
+use App\Repositories\UserRepository;
 
 use App\Http\Resources\User\PublicUserResource;
 
@@ -22,7 +24,7 @@ class UserController extends Controller
     {
         $user = is_numeric($identifier) ? $this->userRepository->find($identifier) : $this->userRepository->findByUsername($identifier);
 
-        if (is_null($user)) {
+        if (is_null($user) || $user->id === Auth::user()->id) {
             return response()->json(status: Response::HTTP_NOT_FOUND);
         }
 

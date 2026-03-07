@@ -35,6 +35,24 @@ class GetUserTest extends TestCase
         $response->assertNotFound();
     }
 
+    public function testTryGetSelfUserById()
+    {
+        $this->actingAs($this->user);
+
+        $response = $this->json('GET', 'api/users/' . $this->user->id);
+
+        $response->assertNotFound();
+    }
+
+    public function testTryGetSelfUserByUsername()
+    {
+        $this->actingAs($this->user);
+
+        $response = $this->json('GET', 'api/users/' . $this->user->username);
+
+        $response->assertNotFound();
+    }
+
     public function testGetUserByIdSuccessfully()
     {
         $this->actingAs($this->user);
