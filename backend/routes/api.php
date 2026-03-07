@@ -50,6 +50,7 @@ Route::group(['middleware' => ['jwt.auth']], function () {
 
 Route::group(['middleware' => ['jwt.auth']], function () {
     Route::prefix('friendships')->group(function () {
+        Route::get('/check/{user}', [FriendshipController::class, 'check']);
         Route::post('/request', [FriendshipController::class, 'request']);
         Route::post('{friendshipRequest}/respond', [FriendshipController::class, 'respond']);
     });

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
+use App\Models\User;
 use App\Models\FriendshipRequest;
 
 use App\Http\Requests\Friendship\CreateFriendshipRequest;
@@ -58,5 +59,20 @@ class FriendshipController extends Controller
         $this->friendshipRequestRepository->update($friendshipRequest, $data);
 
         return response()->json(status: Response::HTTP_NO_CONTENT);
+    }
+
+    public function check(User $user)
+    {
+        /** @var \App\Models\User $authUser */
+        $authUser = Auth::user();
+
+        $isFriend = $authUser->friends()->where('friend_id', $user->id)->exists();
+        $hasPendingFriendshipRequestSent = $authUser->pendingSendedFriendshipRequests()->where('to_user_id', $user->id)->exists();
+        $hasPendingFriendshipRequestReceived = $user->pendingSendedFriendshipRequests()->where('to_user_id', $authUser->id)->exists();
+
+        return response()->json([
+            'is_friend' => $isFriend,
+            'has_pending_friendship_request' => $hasPendingFriendshipRequestSent || $hasPendingFriendshipRequestReceived,
+        ]);
     }
 }
