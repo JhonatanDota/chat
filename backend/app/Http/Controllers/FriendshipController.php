@@ -75,4 +75,14 @@ class FriendshipController extends Controller
             'has_pending_friendship_request' => $hasPendingFriendshipRequestSent || $hasPendingFriendshipRequestReceived,
         ]);
     }
+
+    public function sent()
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        $sendedPendingRequests = $user->pendingSendedFriendshipRequests()->get();
+
+        return response()->json(FriendshipRequestResource::collection($sendedPendingRequests));
+    }
 }
