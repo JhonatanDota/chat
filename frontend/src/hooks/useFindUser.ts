@@ -4,12 +4,12 @@ import { PublicUserModel } from "../models/userModels";
 import { handleErrors } from "../requests/handleErrors";
 import { getUser } from "../requests/userRequests";
 
-export function useFindUser(username?: string) {
+export function useFindUser(identifier?: string | number) {
   return useQuery<PublicUserModel>({
-    queryKey: ["user", username],
+    queryKey: ["user", identifier],
     queryFn: async () => {
       try {
-        const response = await getUser(username!);
+        const response = await getUser(identifier!);
 
         return response.data;
       } catch (error) {
@@ -17,7 +17,7 @@ export function useFindUser(username?: string) {
         throw error;
       }
     },
-    enabled: !!username,
+    enabled: !!identifier,
     refetchOnWindowFocus: false,
     retry: false,
   });
