@@ -2,12 +2,13 @@
 
 namespace Tests\Feature\Friendship;
 
-use App\Enums\FriendshipRequestStatusEnum;
 use Tests\TestCase;
+
+use App\Enums\FriendshipRequestStatusEnum;
 
 use App\Models\FriendshipRequest;
 
-class FriendshipRespondTest extends TestCase
+class FriendshipRequestRespondTest extends TestCase
 {
     public function testTryAccessRespondFriendshipRequestRouteNotLogged()
     {
@@ -16,6 +17,15 @@ class FriendshipRespondTest extends TestCase
         $response = $this->json('POST', 'api/friendship-requests/' . $friendshipRequest->id . '/respond/');
 
         $response->assertUnauthorized();
+    }
+
+    public function testTryRespondFriendshipRequestWithUnkownFriendshipRequest()
+    {
+        $this->actingAs($this->user);
+
+        $response = $this->json('POST', 'api/friendship-requests/0/respond/');
+
+        $response->assertNotFound();
     }
 
     public function testTryRespondFriendshipRequestAsAnotherUser()

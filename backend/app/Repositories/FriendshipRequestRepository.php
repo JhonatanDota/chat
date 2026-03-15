@@ -17,4 +17,9 @@ class FriendshipRequestRepository
 
         return $friendshipRequest->refresh();
     }
+
+    public function destroy(FriendshipRequest $friendshipRequest)
+    {
+        return $friendshipRequest->delete();
+    }
 }

@@ -11,16 +11,13 @@ class FriendshipRequestPolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * Determine whether the user can respond a friendship request.
-     * Only the user that received the request can respond.
-     * 
-     * @param  \App\Models\User $user
-     * @param  \App\Models\FriendshipRequest $friendshipRequest
-     * @return bool
-     */
     public function respond(User $user, FriendshipRequest $friendshipRequest): bool
     {
         return $user->id === $friendshipRequest->to_user_id;
+    }
+
+    public function destroy(User $user, FriendshipRequest $friendshipRequest): bool
+    {
+        return $user->id === $friendshipRequest->from_user_id;
     }
 }

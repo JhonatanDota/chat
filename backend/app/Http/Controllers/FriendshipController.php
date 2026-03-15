@@ -10,6 +10,7 @@ use App\Models\FriendshipRequest;
 
 use App\Http\Requests\Friendship\CreateFriendshipRequest;
 use App\Http\Requests\Friendship\FriendshipRespondRequest;
+use App\Http\Requests\Friendship\DestroyFriendshipRequest;
 
 use App\Repositories\FriendshipRepository;
 use App\Repositories\FriendshipRequestRepository;
@@ -84,5 +85,12 @@ class FriendshipController extends Controller
         $sendedPendingRequests = $user->pendingSendedFriendshipRequests()->get();
 
         return response()->json(FriendshipRequestResource::collection($sendedPendingRequests));
+    }
+
+    public function destroy(DestroyFriendshipRequest $_, FriendshipRequest $friendshipRequest)
+    {
+        $this->friendshipRequestRepository->destroy($friendshipRequest);
+
+        return response()->json(status: Response::HTTP_NO_CONTENT);
     }
 }
