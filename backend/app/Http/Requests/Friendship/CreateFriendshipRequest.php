@@ -49,9 +49,10 @@ class CreateFriendshipRequest extends FormRequest
                 return;
             }
 
-            $hasPendingFriendshipRequest = $user->pendingSendedFriendshipRequests()->where('to_user_id', $toUserId)->exists();
+            $hasPendingSentFriendshipRequest = $user->pendingSentFriendshipRequests()->where('to_user_id', $toUserId)->exists();
+            $hasPendingReceivedFriendshipRequest = $user->pendingReceivedFriendshipRequests()->where('from_user_id', $toUserId)->exists();
 
-            if ($hasPendingFriendshipRequest) {
+            if ($hasPendingSentFriendshipRequest || $hasPendingReceivedFriendshipRequest) {
                 $validator->errors()->add('to_user_id', 'Você já possui uma solicitação de amizade pendente com esse usuário.');
                 return;
             }

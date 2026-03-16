@@ -98,9 +98,19 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(FriendshipRequest::class, 'from_user_id');
     }
 
-    public function pendingSendedFriendshipRequests()
+    public function receivedFriendshipRequests()
+    {
+        return $this->hasMany(FriendshipRequest::class, 'to_user_id');
+    }
+
+    public function pendingSentFriendshipRequests()
     {
         return $this->sendedFriendshipRequests()->where('status', FriendshipRequestStatusEnum::PENDING->value);
+    }
+
+    public function pendingReceivedFriendshipRequests()
+    {
+        return $this->receivedFriendshipRequests()->where('status', FriendshipRequestStatusEnum::PENDING->value);
     }
 
     public function friends()

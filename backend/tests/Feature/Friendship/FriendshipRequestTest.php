@@ -48,7 +48,7 @@ class FriendshipRequestTest extends TestCase
         ]);
     }
 
-    public function testTrySendFriendshipRequestWhenAlreadyHasPendingRequest()
+    public function testTrySendFriendshipRequestWhenAlreadyHasPendingRequestSentFromUser()
     {
         $this->actingAs($this->user);
 
@@ -58,6 +58,24 @@ class FriendshipRequestTest extends TestCase
 
         $response = $this->json('POST', 'api/friendship-requests/', [
             'to_user_id' => $friendshipPendingRequest->to_user_id,
+        ]);
+
+        $response->assertUnprocessable();
+        $response->assertJsonValidationErrors([
+            'to_user_id' => ['Você já possui uma solicitação de amizade pendente com esse usuário.'],
+        ]);
+    }
+
+    public function testTrySendFriendshipRequestWhenAlreadyHasPendingRequestReceivedFromUser()
+    {
+        $this->actingAs($this->user);
+
+        $friendshipPendingRequest = FriendshipRequest::factory()->create([
+            'to_user_id' => $this->user->id
+        ]);
+
+        $response = $this->json('POST', 'api/friendship-requests/', [
+            'to_user_id' => $friendshipPendingRequest->from_user_id,
         ]);
 
         $response->assertUnprocessable();

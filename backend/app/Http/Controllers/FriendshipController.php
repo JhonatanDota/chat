@@ -68,8 +68,8 @@ class FriendshipController extends Controller
         $authUser = Auth::user();
 
         $isFriend = $authUser->friends()->where('friend_id', $user->id)->exists();
-        $hasPendingFriendshipRequestSent = $authUser->pendingSendedFriendshipRequests()->where('to_user_id', $user->id)->exists();
-        $hasPendingFriendshipRequestReceived = $user->pendingSendedFriendshipRequests()->where('to_user_id', $authUser->id)->exists();
+        $hasPendingFriendshipRequestSent = $authUser->pendingSentFriendshipRequests()->where('to_user_id', $user->id)->exists();
+        $hasPendingFriendshipRequestReceived = $user->pendingSentFriendshipRequests()->where('to_user_id', $authUser->id)->exists();
 
         return response()->json([
             'is_friend' => $isFriend,
@@ -82,7 +82,7 @@ class FriendshipController extends Controller
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
-        $sendedPendingRequests = $user->pendingSendedFriendshipRequests()->get();
+        $sendedPendingRequests = $user->pendingSentFriendshipRequests()->get();
 
         return response()->json(FriendshipRequestResource::collection($sendedPendingRequests));
     }
