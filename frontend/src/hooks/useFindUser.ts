@@ -6,7 +6,7 @@ import { getUser } from "../requests/userRequests";
 
 export function useFindUser(identifier?: string | number) {
   return useQuery<PublicUserModel>({
-    queryKey: ["user", identifier],
+    queryKey: ["findUser", identifier],
     queryFn: async () => {
       try {
         const response = await getUser(identifier!);
