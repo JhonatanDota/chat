@@ -1,3 +1,5 @@
+import { useQueryClient } from "@tanstack/react-query";
+
 import { useCheckFriendship } from "../../../../../../hooks/useCheckFriendship";
 import { PublicUserModel } from "../../../../../../models/userModels";
 import { requestFriendship as requestFriendshipRequest } from "../../../../../../requests/friendshipRequests";
@@ -12,6 +14,8 @@ type SearchResultProps = {
 export default function FindUserResult(props: SearchResultProps) {
   const { user } = props;
 
+  const queryClient = useQueryClient();
+
   const {
     data: checkFriendship,
     refetch,
@@ -22,9 +26,14 @@ export default function FindUserResult(props: SearchResultProps) {
     try {
       await requestFriendshipRequest({ toUserId: user.id });
       await refetch();
+      staleSentFriendshipRequests();
     } catch (error) {
       handleErrors(error);
     }
+  }
+
+  function staleSentFriendshipRequests() {
+    queryClient.invalidateQueries({ queryKey: ["sentFriendshipRequests"] });
   }
 
   function renderAction() {

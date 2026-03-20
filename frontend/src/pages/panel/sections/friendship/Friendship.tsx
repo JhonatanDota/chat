@@ -1,9 +1,11 @@
 import { FiSearch } from "react-icons/fi";
+import { FiMail } from "react-icons/fi";
 
 import SectionCard from "../../components/section/SectionCard";
 import SectionCardTitle from "../../components/section/SectionCardTitle";
 import SectionContainer from "../../components/section/SectionContainer";
 import SectionTitle from "../../components/section/SectionTitle";
+import FriendshipRequest from "./components/request/FriendshipRequest";
 import FindUser from "./components/search/FindUser";
 
 export default function Friendship() {
@@ -17,6 +19,14 @@ export default function Friendship() {
           title="Buscar Usuário"
         />
         <FindUser />
+      </SectionCard>
+
+      <SectionCard>
+        <SectionCardTitle
+          icon={<FiMail className="h-4 w-4 text-primary-text" />}
+          title="Convites Pendentes"
+        />
+        <FriendshipRequest />
       </SectionCard>
     </SectionContainer>
   );
