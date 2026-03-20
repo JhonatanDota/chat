@@ -27,9 +27,7 @@ export default function UserBox(props: UserBoxProps) {
         </div>
       </div>
 
-      <div className="self-end md:self-center">
-        {children && <>{children}</>}
-      </div>
+      <div className="self-end md:self-center">{children && children}</div>
     </div>
   );
 }
