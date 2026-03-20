@@ -66,5 +66,6 @@ Route::group(['middleware' => ['jwt.auth']], function () {
         Route::post('{friendshipRequest}/respond', [FriendshipController::class, 'respond']);
 
         Route::get('sent', [FriendshipController::class, 'sent']);
+        Route::get('received', [FriendshipController::class, 'received']);
     });
 });

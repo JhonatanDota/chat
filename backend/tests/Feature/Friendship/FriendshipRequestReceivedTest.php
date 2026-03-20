@@ -10,16 +10,16 @@ use App\Enums\FriendshipRequestStatusEnum;
 
 use App\Http\Resources\FriendshipRequestResource;
 
-class FriendshipRequestSentTest extends TestCase
+class FriendshipRequestReceivedTest extends TestCase
 {
-    public function testTryAccessFriendshipRequestSentRouteNotLogged()
+    public function testTryAccessFriendshipRequestReceivedRouteNotLogged()
     {
-        $response = $this->json('GET', 'api/friendship-requests/sent');
+        $response = $this->json('GET', 'api/friendship-requests/received');
 
         $response->assertUnauthorized();
     }
 
-    public function testFriendshipRequestSentWithoutFriendshipRequest()
+    public function testFriendshipRequestReceivedWithoutFriendshipRequest()
     {
         $this->actingAs($this->user);
 
@@ -28,44 +28,46 @@ class FriendshipRequestSentTest extends TestCase
             'status' => FriendshipRequestStatusEnum::PENDING->value,
         ]);
 
-        $response = $this->json('GET', 'api/friendship-requests/sent');
+        $response = $this->json('GET', 'api/friendship-requests/received');
 
         $response->assertOk();
         $response->assertExactJson([]);
     }
 
-    public function testFriendshipRequestSentWithoutPendingFriendshipRequest()
+    public function testFriendshipRequestReceivedWithoutPendingFriendshipRequest()
     {
         $this->actingAs($this->user);
 
         FriendshipRequest::factory()->create([
-            'from_user_id' => $this->user->id,
+            'to_user_id' => $this->user->id,
             'status' => FriendshipRequestStatusEnum::ACCEPTED->value,
         ]);
 
         FriendshipRequest::factory()->create([
-            'from_user_id' => $this->user->id,
+            'to_user_id' => $this->user->id,
             'status' => FriendshipRequestStatusEnum::DECLINED->value,
         ]);
 
-        $response = $this->json('GET', 'api/friendship-requests/sent');
+        $response = $this->json('GET', 'api/friendship-requests/received');
 
         $response->assertOk();
         $response->assertExactJson([]);
     }
 
-    public function testFriendshipRequestSentWithPendingFriendshipRequest()
+    public function testFriendshipRequestReceivedWithPendingFriendshipRequest()
     {
         $this->actingAs($this->user);
 
         $friendshipRequests = FriendshipRequest::factory(2)->create([
-            'from_user_id' => $this->user->id,
+            'to_user_id' => $this->user->id,
             'status' => FriendshipRequestStatusEnum::PENDING->value,
         ]);
 
-        $response = $this->json('GET', 'api/friendship-requests/sent');
+        $response = $this->json('GET', 'api/friendship-requests/received');
 
         $response->assertOk();
-        $response->assertExactJson(FriendshipRequestResource::collection($friendshipRequests)->resolve());
+        $response->assertExactJson(
+            FriendshipRequestResource::collection($friendshipRequests)->resolve()
+        );
     }
 }

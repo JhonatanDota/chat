@@ -87,6 +87,16 @@ class FriendshipController extends Controller
         return response()->json(FriendshipRequestResource::collection($sendedPendingRequests));
     }
 
+    public function received()
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        $receivedPendingRequests = $user->pendingReceivedFriendshipRequests()->get();
+
+        return response()->json(FriendshipRequestResource::collection($receivedPendingRequests));
+    }
+
     public function destroy(DestroyFriendshipRequest $_, FriendshipRequest $friendshipRequest)
     {
         $this->friendshipRequestRepository->destroy($friendshipRequest);
