@@ -2,19 +2,19 @@
 
 namespace Database\Seeders;
 
-use App\Models\Friendship;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Seeder;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use App\Models\Friendship;
+use App\Models\FriendshipRequest;
 
 class DevelopmentSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
+        $this->command->info('Creating users...');
+
         $users[] = User::factory()->create([
             'name' => 'Juninho',
             'username' => 'junin_99',
@@ -36,6 +36,21 @@ class DevelopmentSeeder extends Seeder
             'password' => Hash::make('julia99'),
         ]);
 
+        $this->command->info('Trying to make friends...');
+
+        FriendshipRequest::factory(5)->create([
+            'from_user_id' => $users[0]->id,
+        ]);
+
+        FriendshipRequest::factory(5)->create([
+            'to_user_id' => $users[0]->id,
+        ]);
+
+        $this->command->info('Making friends...');
+
         Friendship::makeFriends($users[0]->id, $users[1]->id);
+        Friendship::makeFriends($users[0]->id, $users[2]->id);
+
+        $this->command->warn('DONE!');
     }
 }
