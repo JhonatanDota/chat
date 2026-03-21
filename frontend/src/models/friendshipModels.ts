@@ -5,10 +5,6 @@ export type CheckFriendshipModel = {
   hasPendingFriendshipRequest: boolean;
 };
 
-export type RequestFriendshipModel = {
-  toUserId: number;
-};
-
 export type FriendshipRequestModel = {
   id: number;
   fromUserId: number;

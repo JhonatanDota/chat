@@ -16,7 +16,7 @@ export default function MenuItem(props: MenuItemProps) {
         <div
           className={`flex w-full items-center gap-1.5 rounded-md p-2.5 px-4 transition-colors ${
             isActive
-              ? "bg-success text-primary-text"
+              ? "bg-secondary text-primary-text"
               : "text-gray-200 hover:bg-gray-600/30 hover:text-primary-text"
           }`}
         >

@@ -29,10 +29,6 @@ export default function RemoveFriendshipRequestDialog(
         toast.success("Convite removido com sucesso!");
 
         queryClient.invalidateQueries({
-          queryKey: ["findUser", user.username],
-        });
-
-        queryClient.invalidateQueries({
           queryKey: ["checkFriendship", user.id],
         });
 

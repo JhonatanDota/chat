@@ -1,9 +1,8 @@
 import { useQueryClient } from "@tanstack/react-query";
 
 import { useCheckFriendship } from "../../../../../../hooks/useCheckFriendship";
+import { useRequestFriendship } from "../../../../../../hooks/useRequestFriendship";
 import { PublicUserModel } from "../../../../../../models/userModels";
-import { requestFriendship as requestFriendshipRequest } from "../../../../../../requests/friendshipRequests";
-import { handleErrors } from "../../../../../../requests/handleErrors";
 import Loader from "../../../../components/misc/Loader";
 import UserBox from "../UserBox";
 
@@ -19,25 +18,23 @@ export default function FindUserResult(props: SearchResultProps) {
   const {
     data: checkFriendship,
     refetch,
-    isLoading,
+    isLoading: isLoadingCheckFriendship,
   } = useCheckFriendship(user.id);
 
-  async function requestFriendship() {
-    try {
-      await requestFriendshipRequest({ toUserId: user.id });
-      await refetch();
-      staleSentFriendshipRequests();
-    } catch (error) {
-      handleErrors(error);
-    }
-  }
+  const { mutate, isPending: isPendingRequestFriendship } =
+    useRequestFriendship();
 
-  function staleSentFriendshipRequests() {
-    queryClient.invalidateQueries({ queryKey: ["sentFriendshipRequests"] });
+  function requestFriendship() {
+    mutate(user.id, {
+      onSuccess: () => {
+        refetch();
+        queryClient.invalidateQueries({ queryKey: ["sentFriendshipRequests"] });
+      },
+    });
   }
 
   function renderAction() {
-    if (isLoading) {
+    if (isLoadingCheckFriendship) {
       return <Loader size="sm" />;
     }
 
@@ -63,7 +60,7 @@ export default function FindUserResult(props: SearchResultProps) {
       <button
         type="button"
         className="button-action"
-        disabled={isLoading}
+        disabled={isPendingRequestFriendship}
         onClick={requestFriendship}
       >
         Adicionar
