@@ -1,9 +1,9 @@
 import { AxiosResponse } from "axios";
 
+import { FriendshipRequestStatusEnum } from "../enums/friendshipRequestEnum";
 import {
   CheckFriendshipModel,
   FriendshipRequestModel,
-  RequestFriendshipModel,
 } from "../models/friendshipModels";
 import { requester } from "./config";
 
@@ -17,15 +17,30 @@ export async function checkFriendship(
 }
 
 export async function requestFriendship(
-  data: RequestFriendshipModel
+  toUserId: number
 ): Promise<AxiosResponse<FriendshipRequestModel>> {
-  return await requester().post(FRIENDSHIP_REQUEST_ROUTE, data);
+  return await requester().post(FRIENDSHIP_REQUEST_ROUTE, { toUserId });
+}
+
+export function respondFriendshipRequest(
+  id: number,
+  status: FriendshipRequestStatusEnum
+): Promise<AxiosResponse<void>> {
+  return requester().post(`${FRIENDSHIP_REQUEST_ROUTE}/${id}/respond`, {
+    status,
+  });
 }
 
 export function sentFriendship(): Promise<
   AxiosResponse<FriendshipRequestModel[]>
 > {
   return requester().get(`${FRIENDSHIP_REQUEST_ROUTE}/sent`);
+}
+
+export function receivedFriendship(): Promise<
+  AxiosResponse<FriendshipRequestModel[]>
+> {
+  return requester().get(`${FRIENDSHIP_REQUEST_ROUTE}/received`);
 }
 
 export function removeFriendship(id: number): Promise<AxiosResponse<void>> {

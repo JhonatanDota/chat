@@ -1,15 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { FriendshipRequestModel } from "../models/friendshipModels";
-import { sentFriendship } from "../requests/friendshipRequests";
+import { receivedFriendship } from "../requests/friendshipRequests";
 import { handleErrors } from "../requests/handleErrors";
 
-export function useSentFriendshipRequests() {
+export function useReceivedFriendshipRequests() {
   return useQuery<FriendshipRequestModel[]>({
-    queryKey: ["sentFriendshipRequests"],
+    queryKey: ["receivedFriendshipRequests"],
     queryFn: async () => {
       try {
-        const response = await sentFriendship();
+        const response = await receivedFriendship();
 
         return response.data;
       } catch (error) {

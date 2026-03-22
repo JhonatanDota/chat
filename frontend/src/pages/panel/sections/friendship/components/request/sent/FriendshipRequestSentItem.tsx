@@ -1,3 +1,5 @@
+import { MdPersonRemove } from "react-icons/md";
+
 import { useFindUser } from "../../../../../../../hooks/useFindUser";
 import { FriendshipRequestModel } from "../../../../../../../models/friendshipModels";
 import { PublicUserModel } from "../../../../../../../models/userModels";
@@ -35,7 +37,7 @@ export default function FriendshipRequestSentItem(
         type="button"
         className="button-cancel-action"
       >
-        Remover Convite
+        <MdPersonRemove />
       </button>
     </UserBox>
   );

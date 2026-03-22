@@ -19,6 +19,7 @@ export function useFindUser(identifier?: string | number) {
     },
     enabled: !!identifier,
     refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 10,
     retry: false,
   });
 }

@@ -6,9 +6,10 @@ import { PublicUserModel } from "../../../../../../../models/userModels";
 import SectionCard from "../../../../../components/section/SectionCard";
 import SectionCardTitle from "../../../../../components/section/SectionCardTitle";
 import RemoveFriendshipRequestDialog from "../../actions/RemoveFriendshipRequestDialog";
+import EmptyDataMessage from "../../EmptyDataMessage";
 import FriendshipRequestSentItem from "./FriendshipRequestSentItem";
 
-type toRemoveFriendshipRequestDataType = {
+type ToRemoveFriendshipRequestDataType = {
   friendshipRequest: FriendshipRequestModel;
   user: PublicUserModel;
 };
@@ -22,10 +23,10 @@ export default function FriendshipRequestSent() {
   ] = useState(false);
 
   const [toRemoveFriendshipRequestData, setToRemoveFriendshipRequestData] =
-    useState<toRemoveFriendshipRequestDataType>();
+    useState<ToRemoveFriendshipRequestDataType>();
 
   function handleRemoveFriendshipRequest(
-    toRemoveFriendshipRequestData: toRemoveFriendshipRequestDataType
+    toRemoveFriendshipRequestData: ToRemoveFriendshipRequestDataType
   ) {
     setOpenRemoveFriendshipRequestDialog(true);
     setToRemoveFriendshipRequestData(toRemoveFriendshipRequestData);
@@ -35,13 +36,18 @@ export default function FriendshipRequestSent() {
     <>
       <SectionCard>
         <SectionCardTitle title="Enviados" />
-        {data.map((friendshipRequest) => (
-          <FriendshipRequestSentItem
-            key={friendshipRequest.id}
-            friendshipRequest={friendshipRequest}
-            handleRemoveFriendshipRequest={handleRemoveFriendshipRequest}
-          />
-        ))}
+
+        {data.length ? (
+          data.map((friendshipRequest) => (
+            <FriendshipRequestSentItem
+              key={friendshipRequest.id}
+              friendshipRequest={friendshipRequest}
+              handleRemoveFriendshipRequest={handleRemoveFriendshipRequest}
+            />
+          ))
+        ) : (
+          <EmptyDataMessage message="Nenhum convite enviado pendente." />
+        )}
       </SectionCard>
 
       {openRemoveFriendshipRequestDialog && toRemoveFriendshipRequestData && (
