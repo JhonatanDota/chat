@@ -15,7 +15,7 @@ class DevelopmentSeeder extends Seeder
     {
         $this->command->info('Creating users...');
 
-        $users[] = User::factory()->create([
+        $users[] = User::factory()->withAvatar()->create([
             'name' => 'Juninho',
             'username' => 'junin_99',
             'email' => 'juninho@email.com',

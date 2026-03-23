@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
 
 /**
@@ -38,8 +39,15 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn() => [
             'email_verified_at' => null,
+        ]);
+    }
+
+    public function withAvatar(): static
+    {
+        return $this->state(fn() => [
+            'avatar' => UploadedFile::fake()->image('avatar.jpg')->store('avatars'),
         ]);
     }
 }

@@ -11,8 +11,12 @@ RUN apt-get update -y && apt-get install -y \
     curl \
     libonig-dev \
     libzip-dev \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
     default-mysql-client \
-    && docker-php-ext-install pdo pdo_mysql mbstring zip \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install pdo pdo_mysql mbstring zip gd \
     && pecl install redis \
     && docker-php-ext-enable redis \
     && apt-get clean

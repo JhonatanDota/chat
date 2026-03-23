@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -27,6 +28,7 @@ class User extends Authenticatable implements JWTSubject
         'email',
         'username',
         'password',
+        'avatar',
     ];
 
     /**
@@ -87,6 +89,11 @@ class User extends Authenticatable implements JWTSubject
     public function sendPasswordResetNotification($token): void
     {
         $this->notify(new ResetPasswordNotification($token));
+    }
+
+    public function getAvatarAttribute($value)
+    {
+        return $value ? asset(Storage::url($value)) : null;
     }
 
     // =========================================================================
