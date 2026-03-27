@@ -14,8 +14,8 @@ export default function UserBox(props: UserBoxProps) {
     <div className="flex flex-col gap-3 rounded-md border-2 border-secondary bg-primary p-3 md:flex-row md:justify-between">
       <div className="flex items-center gap-3">
         <img
-          src={userIcon}
-          alt={user.name}
+          src={user.avatar ?? userIcon}
+          alt="Avatar do usuário"
           className="h-12 w-12 rounded-full object-cover"
         />
 

@@ -20,6 +20,7 @@ import {
 } from "../../schemas/auth/registerSchema";
 import AuthForm from "./AuthForm";
 import AuthSectionContainer from "./AuthSectionContainer";
+import AuthImageInput from "./components/AuthImageInput";
 import AuthInput from "./components/AuthInput";
 import AuthSubmitButton from "./components/AuthSubmitButton";
 
@@ -28,6 +29,8 @@ export default function Register() {
     register,
     handleSubmit,
     reset,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm<RegisterSchemaType>({
     resolver: zodResolver(registerSchemaData),
@@ -35,11 +38,27 @@ export default function Register() {
 
   const [registering, setRegistering] = useState<boolean>(false);
 
+  function handleRemoveImage(): void {
+    setValue("avatar", null);
+  }
+
+  function getWatchImagePreview() {
+    const image = watch("avatar");
+
+    if (!image) return null;
+
+    if (image instanceof FileList && image.length) {
+      return URL.createObjectURL(image[0]);
+    }
+  }
+
   async function onSubmit(data: RegisterSchemaType): Promise<void> {
     setRegistering(true);
 
+    const avatar = data.avatar?.length ? data.avatar[0] : undefined;
+
     try {
-      await registerRequest(data);
+      await registerRequest({ ...data, avatar });
 
       reset();
       toast.success("Registrado com sucesso!");
@@ -98,6 +117,13 @@ export default function Register() {
             register={register("passwordConfirmation")}
           />
         </div>
+
+        <AuthImageInput
+          register={register("avatar")}
+          error={errors.avatar?.message}
+          preview={getWatchImagePreview()}
+          onRemove={() => handleRemoveImage()}
+        />
 
         <AuthSubmitButton text="Registrar" disabled={registering} />
 

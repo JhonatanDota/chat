@@ -13,6 +13,7 @@ export type RegisterModel = {
   username: string;
   password: string;
   passwordConfirmation: string;
+  avatar?: File | null;
 };
 
 export type ForgotPasswordModel = {

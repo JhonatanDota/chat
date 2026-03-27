@@ -11,7 +11,7 @@ export function requester(): AxiosInstance {
     axios.create({
       baseURL: BASE_URL,
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
         accept: "application/json",
         Authorization: `Bearer ${getToken()}`,
       },

@@ -25,6 +25,7 @@ export const registerSchemaData = z
     passwordConfirmation: z
       .string()
       .nonempty("A confirmação de senha é obrigatória"),
+    avatar: z.instanceof(FileList).nullable(),
   })
   .refine((data) => data.password === data.passwordConfirmation, {
     message: "As senhas não coincidem",

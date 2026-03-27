@@ -11,7 +11,7 @@ export default function RoutePublic(props: RouteGuardProps) {
   const isAuthenticated = !!getToken();
 
   if (isAuthenticated) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to="/conversations" replace />;
   }
 
   return <>{children}</>;
