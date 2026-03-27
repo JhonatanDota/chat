@@ -19,6 +19,8 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 use App\Http\Resources\User\UserResource;
 
+use App\Services\Storage\FileService;
+
 class AuthController extends Controller
 {
     private UserRepository $userRepository;
@@ -56,6 +58,12 @@ class AuthController extends Controller
     public function register(RegisterRequest $request): JsonResponse
     {
         $inputs = $request->validated();
+
+        if ($inputs['avatar'] ?? false) {
+            $fileService = new FileService();
+
+            $inputs['avatar'] = $fileService->upload($inputs['avatar'], 'avatars') ?? null;
+        }
 
         $user = $this->userRepository->create($inputs);
 

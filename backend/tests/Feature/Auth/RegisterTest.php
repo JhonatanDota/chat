@@ -5,6 +5,8 @@ namespace Tests\Feature\Auth;
 use Tests\TestCase;
 
 use Illuminate\Support\Str;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 use App\Models\User;
 
@@ -31,7 +33,7 @@ class RegisterTest extends TestCase
         $response->assertUnprocessable();
 
         $response->assertJsonValidationErrors([
-            'name' => ['The name field is required.'],
+            'name' => ['O nome é obrigatório.'],
         ]);
     }
 
@@ -50,7 +52,7 @@ class RegisterTest extends TestCase
         $response->assertUnprocessable();
 
         $response->assertJsonValidationErrors([
-            'name' => ['The name field must be at least ' . NameRules::MIN_LENGTH . ' characters.'],
+            'name' => ['O nome deve ter no mínimo ' . NameRules::MIN_LENGTH . ' caracteres.'],
         ]);
     }
 
@@ -69,7 +71,7 @@ class RegisterTest extends TestCase
         $response->assertUnprocessable();
 
         $response->assertJsonValidationErrors([
-            'name' => ['The name field must not be greater than ' . NameRules::MAX_LENGTH . ' characters.'],
+            'name' => ['O nome deve ter no máximo ' . NameRules::MAX_LENGTH . ' caracteres.'],
         ]);
     }
 
@@ -87,7 +89,7 @@ class RegisterTest extends TestCase
         $response->assertUnprocessable();
 
         $response->assertJsonValidationErrors([
-            'email' => ['The email field is required.'],
+            'email' => ['O email é obrigatório.'],
         ]);
     }
 
@@ -106,7 +108,7 @@ class RegisterTest extends TestCase
         $response->assertUnprocessable();
 
         $response->assertJsonValidationErrors([
-            'email' => ['The email field format is invalid.'],
+            'email' => ['O email não é válido.'],
         ]);
     }
 
@@ -125,7 +127,7 @@ class RegisterTest extends TestCase
         $response->assertUnprocessable();
 
         $response->assertJsonValidationErrors([
-            'email' => ['The email field must not be greater than ' . EmailRules::MAX_LENGTH . ' characters.'],
+            'email' => ['O email deve ter no máximo ' . EmailRules::MAX_LENGTH . ' caracteres.'],
         ]);
     }
 
@@ -150,7 +152,7 @@ class RegisterTest extends TestCase
         $response->assertUnprocessable();
 
         $response->assertJsonValidationErrors([
-            'email' => ['The email has already been taken.'],
+            'email' => ['O email já está sendo usado.'],
         ]);
     }
 
@@ -168,7 +170,7 @@ class RegisterTest extends TestCase
         $response->assertUnprocessable();
 
         $response->assertJsonValidationErrors([
-            'username' => ['The username field is required.'],
+            'username' => ['O nome de usuário é obrigatório.'],
         ]);
     }
 
@@ -187,7 +189,7 @@ class RegisterTest extends TestCase
         $response->assertUnprocessable();
 
         $response->assertJsonValidationErrors([
-            'username' => ['The username field must be at least ' . UsernameRules::MIN_LENGTH . ' characters.'],
+            'username' => ['O nome de usuário deve ter no mínimo ' . UsernameRules::MIN_LENGTH . ' caracteres.'],
         ]);
     }
 
@@ -206,7 +208,7 @@ class RegisterTest extends TestCase
         $response->assertUnprocessable();
 
         $response->assertJsonValidationErrors([
-            'username' => ['The username field must not be greater than ' . UsernameRules::MAX_LENGTH . ' characters.'],
+            'username' => ['O nome de usuário deve ter no máximo ' . UsernameRules::MAX_LENGTH . ' caracteres.'],
         ]);
     }
 
@@ -225,7 +227,7 @@ class RegisterTest extends TestCase
         $response->assertUnprocessable();
 
         $response->assertJsonValidationErrors([
-            'username' => ['The username field format is invalid.'],
+            'username' => ['O nome de usuário não é válido.'],
         ]);
     }
 
@@ -244,7 +246,7 @@ class RegisterTest extends TestCase
         $response->assertUnprocessable();
 
         $response->assertJsonValidationErrors([
-            'username' => ['The username field format is invalid.'],
+            'username' => ['O nome de usuário não é válido.'],
         ]);
     }
 
@@ -263,7 +265,7 @@ class RegisterTest extends TestCase
         $response->assertUnprocessable();
 
         $response->assertJsonValidationErrors([
-            'username' => ['The username field format is invalid.'],
+            'username' => ['O nome de usuário não é válido.'],
         ]);
     }
 
@@ -282,7 +284,7 @@ class RegisterTest extends TestCase
         $response->assertUnprocessable();
 
         $response->assertJsonValidationErrors([
-            'username' => ['The username field format is invalid.'],
+            'username' => ['O nome de usuário não é válido.'],
         ]);
     }
 
@@ -306,7 +308,7 @@ class RegisterTest extends TestCase
         $response->assertUnprocessable();
 
         $response->assertJsonValidationErrors([
-            'username' => ['The username has already been taken.'],
+            'username' => ['O nome de usuário já está sendo usado.'],
         ]);
     }
 
@@ -340,7 +342,7 @@ class RegisterTest extends TestCase
         $response->assertUnprocessable();
 
         $response->assertJsonValidationErrors([
-            'password' => ['The password field is required.'],
+            'password' => ['A senha é obrigatória.'],
         ]);
     }
 
@@ -356,7 +358,7 @@ class RegisterTest extends TestCase
         $response->assertUnprocessable();
 
         $response->assertJsonValidationErrors([
-            'password' => ['The password field confirmation does not match.'],
+            'password' => ['As senhas não coincidem.'],
         ]);
     }
 
@@ -375,7 +377,7 @@ class RegisterTest extends TestCase
         $response->assertUnprocessable();
 
         $response->assertJsonValidationErrors([
-            'password' => ['The password field must be at least ' . PasswordRules::MIN_LENGTH . ' characters.'],
+            'password' => ['A senha deve ter no mínimo ' . PasswordRules::MIN_LENGTH . ' caracteres.'],
         ]);
     }
 
@@ -394,15 +396,100 @@ class RegisterTest extends TestCase
         $response->assertUnprocessable();
 
         $response->assertJsonValidationErrors([
-            'password' => ['The password field must not be greater than ' . PasswordRules::MAX_LENGTH . ' characters.'],
+            'password' => ['A senha deve ter no máximo ' . PasswordRules::MAX_LENGTH . ' caracteres.'],
         ]);
+    }
+
+    public function testTryRegisterWhenAvatarIsTooLarge()
+    {
+        $password = fake()->password();
+
+        $response = $this->json('POST', 'api/register/', [
+            'name' => fake()->name(),
+            'email' => fake()->unique()->safeEmail(),
+            'username' => fake()->userName(),
+            'password' => $password,
+            'password_confirmation' => $password,
+            'avatar' => UploadedFile::fake()->image('avatar.jpg')->size(3000),
+        ]);
+
+        $response->assertUnprocessable();
+
+        $response->assertJsonValidationErrors([
+            'avatar' => ['O avatar deve ter no máximo 2048 KB.'],
+        ]);
+    }
+
+    public function testTryRegisterWhenAvatarIsInvalidExtension()
+    {
+        $password = fake()->password();
+
+        $response = $this->json('POST', 'api/register/', [
+            'name' => fake()->name(),
+            'email' => fake()->unique()->safeEmail(),
+            'username' => fake()->userName(),
+            'password' => $password,
+            'password_confirmation' => $password,
+            'avatar' => UploadedFile::fake()->create('avatar.gif'),
+        ]);
+
+        $response->assertUnprocessable();
+
+        $response->assertJsonValidationErrors([
+            'avatar' => ['O avatar deve ter a extensão de arquivo .jpg, .jpeg, .png.'],
+        ]);
+    }
+
+    public function testTryRegisterWhenAvatarIsNotImage()
+    {
+        $password = fake()->password();
+
+        $userData = [
+            'name' => fake()->name(),
+            'email' => fake()->unique()->safeEmail(),
+            'username' => fake()->userName(),
+            'password' => $password,
+            'password_confirmation' => $password,
+            'avatar' => UploadedFile::fake()->create('avatar.pdf'),
+        ];
+
+        $response = $this->json('POST', 'api/register/', $userData);
+
+        $response->assertUnprocessable();
+        $response->assertJsonValidationErrors(['avatar']);
+    }
+
+    public function testRegisterSuccessfullyWithValidAvatar()
+    {
+        Storage::fake('public');
+
+        $password = $this->faker->password();
+
+        $response = $this->json('POST', 'api/register/', [
+            'name' => $this->faker->name(),
+            'email' => $this->faker->email(),
+            'username' => $this->faker->userName(),
+            'password' => $password,
+            'password_confirmation' => $password,
+            'avatar' => UploadedFile::fake()->image('avatar.png'),
+        ]);
+
+        $responseData = $response->json();
+
+        $response->assertCreated();
+
+        $user = User::find($responseData['id']);
+
+        $this->assertNotNull($user->avatar);
+
+        Storage::disk('public')->assertExists($user->getRawOriginal('avatar'));
     }
 
     public function testTryRegisterSuccessfully()
     {
         $password = $this->faker->password();
 
-        $userData = [
+        $data = [
             'name' => $this->faker->name(),
             'email' => $this->faker->email(),
             'username' => $this->faker->userName(),
@@ -410,7 +497,7 @@ class RegisterTest extends TestCase
             'password_confirmation' => $password,
         ];
 
-        $response = $this->json('POST', 'api/register/', $userData);
+        $response = $this->json('POST', 'api/register/', $data);
         $responseData = $response->json();
 
         $response->assertCreated();
@@ -421,7 +508,7 @@ class RegisterTest extends TestCase
         $this->assertArrayNotHasKey('password_confirmation', $responseData);
 
         $this->assertDatabaseHas(User::class, [
-            'email' => $userData['email'],
+            'email' => $data['email'],
         ]);
     }
 }
