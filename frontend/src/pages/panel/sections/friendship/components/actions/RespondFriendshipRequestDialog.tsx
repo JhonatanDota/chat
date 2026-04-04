@@ -49,6 +49,12 @@ export default function RespondFriendshipRequestDialog(
           queryClient.invalidateQueries({
             queryKey: ["receivedFriendshipRequests"],
           });
+
+          if (status === FriendshipRequestStatusEnum.ACCEPTED) {
+            queryClient.invalidateQueries({
+              queryKey: ["friends"],
+            });
+          }
         },
       }
     );
@@ -61,7 +67,7 @@ export default function RespondFriendshipRequestDialog(
       <p className="text-sm text-secondary-text md:text-base">
         Tem certeza de que deseja{" "}
         <span className="font-bold text-primary-text">{messages.action}</span> o
-        convite enviado para{" "}
+        convite enviado por{" "}
         <span className="font-bold text-primary-text">{user.name}</span>?
       </p>
 

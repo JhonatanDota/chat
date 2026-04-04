@@ -5,6 +5,7 @@ import {
   CheckFriendshipModel,
   FriendshipRequestModel,
 } from "../models/friendshipModels";
+import { PublicUserModel } from "../models/userModels";
 import { requester } from "./config";
 
 const FRIENDSHIP_ROUTE = "friendships";
@@ -41,6 +42,10 @@ export function receivedFriendship(): Promise<
   AxiosResponse<FriendshipRequestModel[]>
 > {
   return requester().get(`${FRIENDSHIP_REQUEST_ROUTE}/received`);
+}
+
+export function friends(): Promise<AxiosResponse<PublicUserModel[]>> {
+  return requester().get(FRIENDSHIP_ROUTE);
 }
 
 export function removeFriendship(id: number): Promise<AxiosResponse<void>> {
