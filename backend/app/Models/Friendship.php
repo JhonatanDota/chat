@@ -35,4 +35,18 @@ class Friendship extends Model
             'friend_id' => $userA,
         ]);
     }
+
+    // =========================================================================
+    // Relationships
+    // =========================================================================
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function friend()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

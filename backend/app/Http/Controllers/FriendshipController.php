@@ -15,6 +15,7 @@ use App\Http\Requests\Friendship\DestroyFriendshipRequest;
 use App\Repositories\FriendshipRepository;
 use App\Repositories\FriendshipRequestRepository;
 
+use App\Http\Resources\User\PublicUserResource;
 use App\Http\Resources\FriendshipRequestResource;
 
 use App\Enums\FriendshipRequestStatusEnum;
@@ -28,6 +29,13 @@ class FriendshipController extends Controller
     {
         $this->friendshipRepository = $friendshipRepository;
         $this->friendshipRequestRepository = $friendshipRequestRepository;
+    }
+
+    public function list()
+    {
+        $friends = $this->friendshipRepository->getFriendsByUser(Auth::user());
+
+        return PublicUserResource::collection($friends);
     }
 
     public function request(CreateFriendshipRequest $request)

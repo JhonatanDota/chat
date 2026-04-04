@@ -50,6 +50,7 @@ Route::group(['middleware' => ['jwt.auth']], function () {
 
 Route::group(['middleware' => ['jwt.auth']], function () {
     Route::prefix('friendships')->group(function () {
+        Route::get('/', [FriendshipController::class, 'list']);
         Route::get('/check/{user}', [FriendshipController::class, 'check']);
     });
 });
