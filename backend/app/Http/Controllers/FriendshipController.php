@@ -20,15 +20,19 @@ use App\Http\Resources\FriendshipRequestResource;
 
 use App\Enums\FriendshipRequestStatusEnum;
 
+use App\Services\FriendshipService;
+
 class FriendshipController extends Controller
 {
     private FriendshipRepository $friendshipRepository;
     private FriendshipRequestRepository $friendshipRequestRepository;
+    private FriendshipService $friendshipService;
 
     public function __construct(FriendshipRepository $friendshipRepository, FriendshipRequestRepository $friendshipRequestRepository)
     {
         $this->friendshipRepository = $friendshipRepository;
         $this->friendshipRequestRepository = $friendshipRequestRepository;
+        $this->friendshipService = new FriendshipService();
     }
 
     public function list()
@@ -62,7 +66,7 @@ class FriendshipController extends Controller
         ];
 
         if ($status == FriendshipRequestStatusEnum::ACCEPTED->value) {
-            $this->friendshipRepository->makeFriends($friendshipRequest->from_user_id, $friendshipRequest->to_user_id);
+            $this->friendshipService->createFriendship($friendshipRequest->from_user_id, $friendshipRequest->to_user_id);
         }
 
         $this->friendshipRequestRepository->update($friendshipRequest, $data);

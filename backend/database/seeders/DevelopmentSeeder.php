@@ -6,8 +6,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Seeder;
 
 use App\Models\User;
-use App\Models\Friendship;
 use App\Models\FriendshipRequest;
+
+use App\Services\FriendshipService;
 
 class DevelopmentSeeder extends Seeder
 {
@@ -48,8 +49,10 @@ class DevelopmentSeeder extends Seeder
 
         $this->command->info('Making friends...');
 
-        Friendship::makeFriends($users[0]->id, $users[1]->id);
-        Friendship::makeFriends($users[0]->id, $users[2]->id);
+        $friendshipService = new FriendshipService();
+
+        $friendshipService->createFriendship($users[0]->id, $users[1]->id);
+        $friendshipService->createFriendship($users[0]->id, $users[2]->id);
 
         $this->command->warn('DONE!');
     }

@@ -5,8 +5,9 @@ namespace Tests\Feature\Friendship;
 use Tests\TestCase;
 
 use App\Models\User;
-use App\Models\Friendship;
 use App\Models\FriendshipRequest;
+
+use App\Services\FriendshipService;
 
 class FriendshipCheckTest extends TestCase
 {
@@ -47,7 +48,8 @@ class FriendshipCheckTest extends TestCase
 
         $user = User::factory()->create();
 
-        Friendship::makeFriends($this->user->id, $user->id);
+        $friendshipService = new FriendshipService();
+        $friendshipService->createFriendship($this->user->id, $user->id);
 
         $response = $this->json('GET', 'api/friendships/check/' . $user->id);
 

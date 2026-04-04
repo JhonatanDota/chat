@@ -5,6 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 use App\Models\User;
+use App\Models\Conversation;
 
 class FriendshipFactory extends Factory
 {
@@ -16,6 +17,7 @@ class FriendshipFactory extends Factory
     public function definition(): array
     {
         return [
+            'conversation_id' => Conversation::factory(),
             'user_id' => User::factory(),
             'friend_id' => User::factory(),
         ];
