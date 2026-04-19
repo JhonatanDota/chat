@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FriendshipController;
+use App\Http\Controllers\ConversationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,5 +69,15 @@ Route::group(['middleware' => ['jwt.auth']], function () {
 
         Route::get('sent', [FriendshipController::class, 'sent']);
         Route::get('received', [FriendshipController::class, 'received']);
+    });
+});
+
+// =========================================================================
+// Conversation
+// =========================================================================
+
+Route::group(['middleware' => ['jwt.auth']], function () {
+    Route::prefix('conversations')->group(function () {
+        Route::get('/', [ConversationController::class, 'list']);
     });
 });

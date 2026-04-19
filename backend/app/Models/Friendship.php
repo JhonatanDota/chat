@@ -33,4 +33,9 @@ class Friendship extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function conversation()
+    {
+        return $this->belongsTo(Conversation::class);
+    }
 }

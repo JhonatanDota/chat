@@ -129,4 +129,9 @@ class User extends Authenticatable implements JWTSubject
             'friend_id'
         );
     }
+
+    public function friendships()
+    {
+        return $this->hasMany(Friendship::class, 'user_id');
+    }
 }

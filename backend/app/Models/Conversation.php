@@ -15,4 +15,13 @@ class Conversation extends Model
      * @var array<int, string>
      */
     protected $fillable = [];
+
+    // =========================================================================
+    // Relationships
+    // =========================================================================
+
+    public function lastMessage()
+    {
+        return $this->hasOne(Message::class)->latestOfMany();
+    }
 }

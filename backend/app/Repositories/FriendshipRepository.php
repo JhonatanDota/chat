@@ -10,4 +10,9 @@ class FriendshipRepository
     {
         return $user->friends()->get();
     }
+
+    public function getFriendshipsWithConversationLastMessage(User $user)
+    {
+        return $user->friendships()->with(['friend', 'conversation.lastMessage'])->get();
+    }
 }
