@@ -39,6 +39,7 @@ export default function Routes() {
       >
         <Route path="/friendships" element={<Friendship />} />
         <Route path="/conversations" element={<Conversation />} />
+        <Route path="/conversations/:id" element={<Conversation />} />
       </Route>
     </RouterDomRoutes>
   );

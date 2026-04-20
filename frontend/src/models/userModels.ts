@@ -4,5 +4,4 @@ export type PublicUserModel = {
   username: string;
   avatar: string | null;
   createdAt: Date;
-  updatedAt: Date;
 };
