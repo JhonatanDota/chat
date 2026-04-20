@@ -7,7 +7,7 @@ export default function PanelLayout() {
     <div className="flex min-h-screen w-full flex-col md:flex-row">
       <AdminMenu />
 
-      <main className="grow overflow-auto p-4 md:p-6">
+      <main className="grow overflow-auto">
         <Outlet />
       </main>
     </div>
