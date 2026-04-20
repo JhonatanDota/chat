@@ -17,6 +17,7 @@ class ConversationResource extends JsonResource
             'id' => $this->conversation_id,
             'user' => new PublicUserResource($this->friend),
             'last_message' => $lastMessage ? new MessageResource($lastMessage) : null,
+            'created_at' => $this->created_at,
         ];
     }
 }
