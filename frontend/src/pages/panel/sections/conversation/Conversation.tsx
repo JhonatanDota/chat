@@ -9,13 +9,16 @@ export default function Conversation() {
   const { id } = useParams();
   const { data = [] } = useConversationsPreview();
 
-  const previewClassName = `${id ? "hidden md:flex" : "flex border-r border-tertiary"} flex-col m-2 w-full md:w-80 lg:w-96`;
+  const previewClassName = `${id ? "hidden md:flex" : "flex"} border-r-[2px] border-secondary p-2 flex-col w-full md:w-96 lg:w-[28rem]`;
   const chatClassName = `${id ? "flex" : "hidden md:flex"} flex-1 flex-col`;
 
   return (
     <div className="flex h-screen gap-2">
       <div className={previewClassName}>
-        <ConversationsPreview conversationsPreview={data} />
+        <ConversationsPreview
+          conversationsPreview={data}
+          currentConversationId={Number(id)}
+        />
       </div>
 
       <div className={chatClassName}>
