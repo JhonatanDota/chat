@@ -8,6 +8,9 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 use App\Models\FriendshipRequest;
 use App\Policies\FriendshipRequestPolicy;
 
+use App\Models\Conversation;
+use App\Policies\ConversationPolicy;
+
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -16,7 +19,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        FriendshipRequest::class => FriendshipRequestPolicy::class
+        Conversation::class => ConversationPolicy::class,
+        FriendshipRequest::class => FriendshipRequestPolicy::class,
     ];
 
     /**

@@ -6,7 +6,6 @@ use Tests\TestCase;
 
 use App\Models\Message;
 use App\Models\Friendship;
-use App\Models\Conversation;
 
 use App\Http\Resources\ConversationResource;
 

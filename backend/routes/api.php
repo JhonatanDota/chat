@@ -79,5 +79,6 @@ Route::group(['middleware' => ['jwt.auth']], function () {
 Route::group(['middleware' => ['jwt.auth']], function () {
     Route::prefix('conversations')->group(function () {
         Route::get('/', [ConversationController::class, 'list']);
+        Route::get('/{conversation}/messages', [ConversationController::class, 'messages']);
     });
 });
