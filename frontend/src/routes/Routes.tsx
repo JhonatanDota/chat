@@ -1,4 +1,4 @@
-import { Route, Routes as RouterDomRoutes } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
@@ -9,38 +9,47 @@ import Friendship from "../pages/panel/sections/friendship/Friendship";
 import RouteGuard from "./RouteGuard";
 import RoutePublic from "./RoutePublic";
 
-export default function Routes() {
-  return (
-    <RouterDomRoutes>
-      <Route path="/" element={<Home />} />
-      <Route
-        path="/login"
-        element={
-          <RoutePublic>
-            <Login />
-          </RoutePublic>
-        }
-      />
-      <Route
-        path="/register"
-        element={
-          <RoutePublic>
-            <Register />
-          </RoutePublic>
-        }
-      />
-
-      <Route
-        element={
-          <RouteGuard>
-            <PanelLayout />
-          </RouteGuard>
-        }
-      >
-        <Route path="/friendships" element={<Friendship />} />
-        <Route path="/conversations" element={<Conversation />} />
-        <Route path="/conversations/:id" element={<Conversation />} />
-      </Route>
-    </RouterDomRoutes>
-  );
-}
+export const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home />,
+  },
+  {
+    path: "/login",
+    element: (
+      <RoutePublic>
+        <Login />
+      </RoutePublic>
+    ),
+  },
+  {
+    path: "/register",
+    element: (
+      <RoutePublic>
+        <Register />
+      </RoutePublic>
+    ),
+  },
+  {
+    element: (
+      <RouteGuard>
+        <PanelLayout />
+      </RouteGuard>
+    ),
+    children: [
+      {
+        path: "/friendships",
+        element: <Friendship />,
+      },
+      {
+        path: "/conversations",
+        element: <Conversation />,
+      },
+      {
+        path: "/conversations/:id",
+        element: <Conversation />,
+        handle: { hideMobileMenu: true },
+      },
+    ],
+  },
+]);
