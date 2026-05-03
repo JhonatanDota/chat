@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Friendship;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Seeder;
 
@@ -46,6 +47,10 @@ class DevelopmentSeeder extends Seeder
 
         FriendshipRequest::factory(5)->create([
             'to_user_id' => $users[0]->id,
+        ]);
+
+        Friendship::factory(20)->create([
+            'user_id' => $users[0]->id,
         ]);
 
         $this->command->info('Making friends...');
