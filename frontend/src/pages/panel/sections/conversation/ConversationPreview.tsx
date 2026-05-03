@@ -1,6 +1,6 @@
 import userIcon from "../../../../assets/images/user.png";
 import { ConversationPreviewModel } from "../../../../models/conversationModels";
-import { toISOStringBr } from "../../../../utils/date";
+import { messageDate } from "../../../../utils/date";
 
 type ConversationPreviewProps = {
   conversationPreview: ConversationPreviewModel;
@@ -22,19 +22,19 @@ export default function ConversationPreview(props: ConversationPreviewProps) {
       <img
         src={user.avatar ?? userIcon}
         alt="Avatar do usuário"
-        className="h-12 w-12 rounded-full object-cover md:h-14 md:w-14"
+        className="h-12 w-12 rounded-full object-cover"
       />
 
       <div className="flex min-w-0 flex-col gap-1">
         <span className="text-base font-bold">{user.name}</span>
-        <span className="truncate text-sm font-medium text-secondary-text md:text-base">
+        <span className="truncate text-sm font-medium text-secondary-text">
           {lastMessage?.content}
         </span>
       </div>
 
       {lastMessage && (
-        <span className="ml-auto self-start text-xs font-medium text-secondary-text md:text-sm">
-          {lastMessage ? toISOStringBr(lastMessage.createdAt) : "-"}
+        <span className="ml-auto self-start text-center text-xs font-medium text-secondary-text">
+          {lastMessage ? messageDate(new Date(lastMessage.createdAt)) : "-"}
         </span>
       )}
     </div>

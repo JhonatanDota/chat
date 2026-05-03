@@ -2,18 +2,22 @@ import { MdChatBubbleOutline } from "react-icons/md";
 import { useParams } from "react-router-dom";
 
 import { useConversationsPreview } from "../../../../hooks/useConversationsPreview";
-import ConversationChat from "./ConversationChat";
+import ConversationChat from "./chat/ConversationChat";
 import ConversationsPreview from "./ConversationsPreview";
 
 export default function Conversation() {
   const { id } = useParams();
   const { data = [] } = useConversationsPreview();
 
-  const previewClassName = `${id ? "hidden md:flex" : "flex"} border-r-[2px] border-secondary p-2 flex-col w-full md:w-96 lg:w-[28rem]`;
-  const chatClassName = `${id ? "flex" : "hidden md:flex"} flex-1 flex-col`;
+  const user = data.find(
+    (conversation) => conversation.id === Number(id)
+  )?.user;
+
+  const previewClassName = `${id ? "hidden md:flex" : "flex"} p-2 flex-col w-full md:w-96 lg:w-[28rem]`;
+  const chatClassName = `${id ? "flex" : "hidden md:flex"} flex-1 flex-col md:border-l-[2px] md:border-primary`;
 
   return (
-    <div className="flex h-screen gap-2">
+    <div className="flex h-screen">
       <div className={previewClassName}>
         <ConversationsPreview
           conversationsPreview={data}
@@ -22,8 +26,8 @@ export default function Conversation() {
       </div>
 
       <div className={chatClassName}>
-        {id ? (
-          <ConversationChat conversationId={Number(id)} />
+        {id && user ? (
+          <ConversationChat user={user} conversationId={Number(id)} />
         ) : (
           <div className="flex h-full flex-col items-center justify-center gap-3 text-primary-text">
             <MdChatBubbleOutline className="h-16 w-16" />

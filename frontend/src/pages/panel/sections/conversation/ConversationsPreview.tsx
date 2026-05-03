@@ -12,7 +12,7 @@ export default function ConversationsPreview(props: ConversationsPreviewProps) {
   const { conversationsPreview, currentConversationId } = props;
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex max-h-full flex-col gap-3 overflow-y-auto">
       {conversationsPreview.map((conversationPreview) => (
         <Link
           key={conversationPreview.id}
