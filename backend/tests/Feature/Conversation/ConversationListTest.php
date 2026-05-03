@@ -74,13 +74,13 @@ class ConversationListTest extends TestCase
         ]);
 
         Message::factory()->create([
-            'user_id' => $this->user->id,
-            'conversation_id' => $firstFriendship->conversation_id,
+            'user_id' => $secondFriendship->friend_id,
+            'conversation_id' => $secondFriendship->conversation_id,
         ]);
 
         Message::factory()->create([
-            'user_id' => $secondFriendship->friend_id,
-            'conversation_id' => $secondFriendship->conversation_id,
+            'user_id' => $this->user->id,
+            'conversation_id' => $firstFriendship->conversation_id,
         ]);
 
         $response = $this->json('GET', 'api/conversations?mine=true');
@@ -93,5 +93,34 @@ class ConversationListTest extends TestCase
 
         $this->assertTrue($firstConversation['last_message']['is_mine']);
         $this->assertFalse($secondConversation['last_message']['is_mine']);
+    }
+
+    public function testListConversationsOrderedByLastMessage()
+    {
+        $this->actingAs($this->user);
+
+        [$friendshipOlderMessage, $friendshipLastMessage, $friendshipWithoutMessage] = Friendship::factory(3)->create(['user_id' => $this->user->id]);
+
+        Message::factory()->create([
+            'conversation_id' => $friendshipOlderMessage->conversation_id,
+        ]);
+
+        Message::factory()->create([
+            'conversation_id' => $friendshipLastMessage->conversation_id,
+        ]);
+
+        $response = $this->json('GET', 'api/conversations');
+        $response->assertOk();
+
+        $data = $response->json();
+
+        // The first must be the conversation with the last message
+        $this->assertEquals($friendshipLastMessage->conversation_id, $data[0]['id']);
+
+        // The second must be the conversation with message older than the last
+        $this->assertEquals($friendshipOlderMessage->conversation_id, $data[1]['id']);
+
+        // The third must be the conversation with no message
+        $this->assertEquals($friendshipWithoutMessage->conversation_id, $data[2]['id']);
     }
 }
