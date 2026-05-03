@@ -32,13 +32,6 @@ class DevelopmentSeeder extends Seeder
             'password' => Hash::make('jaozin99'),
         ]);
 
-        $users[] = User::factory()->create([
-            'name' => 'Júlia',
-            'username' => 'julia_99',
-            'email' => 'julia@email.com',
-            'password' => Hash::make('julia99'),
-        ]);
-
         $this->command->info('Trying to make friends...');
 
         FriendshipRequest::factory(5)->create([
@@ -57,19 +50,16 @@ class DevelopmentSeeder extends Seeder
 
         $friendshipService = new FriendshipService();
 
-        ['conversation' => $conversation] = $friendshipService->createFriendship($users[0]->id, $users[1]->id);
-        $friendshipService->createFriendship($users[0]->id, $users[2]->id);
+        ['conversation' => $conversation, 'friendships' => $friendships] = $friendshipService->createFriendship($users[0]->id, $users[1]->id);
 
         $this->command->info('Sending some messages...');
 
-        Message::factory()->create([
-            'user_id' => $users[0]->id,
+        Message::factory(50)->create([
             'conversation_id' => $conversation->id,
-        ]);
-
-        Message::factory()->create([
-            'user_id' => $users[1]->id,
-            'conversation_id' => $conversation->id,
+            'user_id' => fn() => fake()->randomElement([
+                $friendships[0]->user_id,
+                $friendships[1]->user_id,
+            ]),
         ]);
 
         $this->command->warn('DONE!');
