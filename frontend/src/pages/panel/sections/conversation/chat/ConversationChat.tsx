@@ -1,3 +1,5 @@
+import { useMemo } from "react";
+
 import { useConversationMessages } from "../../../../../hooks/useConversationMessages";
 import { PublicUserModel } from "../../../../../models/userModels";
 import ConversationFooter from "./ConversationFooter";
@@ -12,13 +14,22 @@ type ConversationChatProps = {
 export default function ConversationChat(props: ConversationChatProps) {
   const { user, conversationId } = props;
 
-  const { data } = useConversationMessages(conversationId.toString());
-  const messages = data?.data ?? [];
+  const { data, isFetchingNextPage, fetchNextPage, hasNextPage } =
+    useConversationMessages(conversationId.toString());
+
+  const messages = useMemo(() => {
+    return data?.pages.flatMap((page) => page.data).reverse() ?? [];
+  }, [data]);
 
   return (
     <div className="flex h-full flex-col">
       <ConversationHeader user={user} />
-      <ConversationMessages messages={messages} />
+      <ConversationMessages
+        messages={messages}
+        fetchNextPage={fetchNextPage}
+        isFetchingNextPage={isFetchingNextPage}
+        hasNextPage={hasNextPage}
+      />
       <ConversationFooter />
     </div>
   );
