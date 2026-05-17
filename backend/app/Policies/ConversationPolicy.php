@@ -15,4 +15,9 @@ class ConversationPolicy
     {
         return $user->friendships()->where('conversation_id', $conversation->id)->exists();
     }
+
+    public function createMessage(User $user, Conversation $conversation): bool
+    {
+        return $user->friendships()->where('conversation_id', $conversation->id)->exists();
+    }
 }

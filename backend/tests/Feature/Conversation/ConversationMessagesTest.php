@@ -102,7 +102,7 @@ class ConversationMessagesTest extends TestCase
         $response = $this->json('GET', 'api/conversations/' . $friendship->conversation_id . '/messages', [
             'cursor' => $cursors['next'],
         ]);
-        
+
         $cursors = $response->json()['cursors'];
 
         $this->assertNull($cursors['next']);
