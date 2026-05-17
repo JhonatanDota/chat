@@ -8,6 +8,6 @@ class ConversationRepository
 {
     public function getPaginatedMessagesByConversation(Conversation $conversation)
     {
-        return $conversation->messages()->cursorPaginate(10);
+        return $conversation->messages()->orderBy('id', 'DESC')->cursorPaginate(10);
     }
 }
