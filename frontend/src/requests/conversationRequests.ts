@@ -16,12 +16,21 @@ export async function conversationsPreview(): Promise<
 }
 
 export async function conversationMessages(
-  conversationId: string,
+  conversationId: number,
   cursor?: string
 ): Promise<AxiosResponse<CursorPaginationResponseModel<MessageModel>>> {
   return await requester().get(`${CONVERSATIONS}/${conversationId}/messages`, {
     params: {
       cursor,
     },
+  });
+}
+
+export async function sendMessage(
+  conversationId: number,
+  content: string
+): Promise<AxiosResponse<MessageModel>> {
+  return await requester().post(`${CONVERSATIONS}/${conversationId}/messages`, {
+    content,
   });
 }

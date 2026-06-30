@@ -15,7 +15,7 @@ export default function ConversationChat(props: ConversationChatProps) {
   const { user, conversationId } = props;
 
   const { data, isFetchingNextPage, fetchNextPage, hasNextPage } =
-    useConversationMessages(conversationId.toString());
+    useConversationMessages(conversationId);
 
   const messages = useMemo(() => {
     return data?.pages.flatMap((page) => page.data).reverse() ?? [];
@@ -30,7 +30,7 @@ export default function ConversationChat(props: ConversationChatProps) {
         isFetchingNextPage={isFetchingNextPage}
         hasNextPage={hasNextPage}
       />
-      <ConversationFooter />
+      <ConversationFooter conversationId={conversationId} />
     </div>
   );
 }

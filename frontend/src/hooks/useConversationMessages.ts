@@ -6,7 +6,7 @@ import { CursorPaginationResponseModel } from "../models/paginationModels";
 import { conversationMessages } from "../requests/conversationRequests";
 import { handleErrors } from "../requests/handleErrors";
 
-export function useConversationMessages(conversationId: string) {
+export function useConversationMessages(conversationId: number) {
   return useInfiniteQuery<CursorPaginationResponseModel<MessageModel>>({
     queryKey: ["conversationMessages", conversationId],
     initialPageParam: null,
