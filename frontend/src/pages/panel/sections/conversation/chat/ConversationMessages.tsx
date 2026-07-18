@@ -1,10 +1,12 @@
 import { useEffect, useRef } from "react";
 import useInfiniteScroll from "react-infinite-scroll-hook";
 
+import { MeModel } from "../../../../../models/authModels";
 import { MessageModel } from "../../../../../models/conversationModels";
 import { messageDate } from "../../../../../utils/date";
 
 type ConversationMessagesProps = {
+  me: MeModel;
   messages: MessageModel[];
   fetchNextPage: () => void;
   hasNextPage: boolean;
@@ -12,7 +14,8 @@ type ConversationMessagesProps = {
 };
 
 export default function ConversationMessages(props: ConversationMessagesProps) {
-  const { messages, fetchNextPage, hasNextPage, isFetchingNextPage } = props;
+  const { me, messages, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    props;
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -33,7 +36,7 @@ export default function ConversationMessages(props: ConversationMessagesProps) {
       <div className="flex-reverse flex flex-col gap-2">
         <div ref={sentryRef} />
         {messages.map((message) => (
-          <MessageBox key={message.id} message={message} />
+          <MessageBox key={message.id} me={me} message={message} />
         ))}
       </div>
 
@@ -43,13 +46,17 @@ export default function ConversationMessages(props: ConversationMessagesProps) {
 }
 
 type MessageBoxProps = {
+  me: MeModel;
   message: MessageModel;
 };
 
 function MessageBox(props: MessageBoxProps) {
   const {
-    message: { content, isMine, createdAt },
+    me,
+    message: { userId, content, createdAt },
   } = props;
+
+  const isMine = userId === me.id;
 
   return (
     <div className={`flex ${isMine ? "justify-end" : "justify-start"}`}>

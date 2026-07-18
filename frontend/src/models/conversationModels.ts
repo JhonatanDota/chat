@@ -10,7 +10,6 @@ export type MessageModel = {
   userId: number;
   conversationId: number;
   content: string;
-  isMine: boolean;
   createdAt: Date;
 };
 
