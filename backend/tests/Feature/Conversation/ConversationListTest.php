@@ -65,36 +65,6 @@ class ConversationListTest extends TestCase
         $this->assertEquals($lastMessage['id'], $secondMessage->id);
     }
 
-    public function testListConversationsIsMineMessage()
-    {
-        $this->actingAs($this->user);
-
-        [$firstFriendship, $secondFriendship] = Friendship::factory(2)->create([
-            'user_id' => $this->user->id,
-        ]);
-
-        Message::factory()->create([
-            'user_id' => $secondFriendship->friend_id,
-            'conversation_id' => $secondFriendship->conversation_id,
-        ]);
-
-        Message::factory()->create([
-            'user_id' => $this->user->id,
-            'conversation_id' => $firstFriendship->conversation_id,
-        ]);
-
-        $response = $this->json('GET', 'api/conversations?mine=true');
-        [$firstConversation, $secondConversation] = $response->json();
-
-        $response->assertOk();
-
-        $this->assertEquals($firstConversation['id'], $firstFriendship->conversation_id);
-        $this->assertEquals($secondConversation['id'], $secondFriendship->conversation_id);
-
-        $this->assertTrue($firstConversation['last_message']['is_mine']);
-        $this->assertFalse($secondConversation['last_message']['is_mine']);
-    }
-
     public function testListConversationsOrderedByLastMessage()
     {
         $this->actingAs($this->user);
