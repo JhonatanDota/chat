@@ -3,12 +3,14 @@ import { AxiosResponse } from "axios";
 import {
   AuthModel,
   ForgotPasswordModel,
+  MeModel,
   RegisterModel,
   ResetPasswordModel,
   SuccessAuthModel,
 } from "../models/authModels";
 import { requester } from "./config";
 
+const ME: string = "me";
 const AUTH: string = "auth";
 const REGISTER: string = "register";
 const LOGOUT: string = "logout";
@@ -19,6 +21,10 @@ export async function auth(
   data: AuthModel
 ): Promise<AxiosResponse<SuccessAuthModel>> {
   return await requester().post(AUTH, data);
+}
+
+export async function me(): Promise<AxiosResponse<MeModel>> {
+  return await requester().get(ME);
 }
 
 export async function register(data: RegisterModel): Promise<AxiosResponse> {

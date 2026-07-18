@@ -1,33 +1,29 @@
 import { MdChatBubble, MdGroups } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
-import { removeToken } from "../../../../functions/auth";
-import { logout } from "../../../../requests/authRequests";
-import { handleErrors } from "../../../../requests/handleErrors";
+import { useLogout } from "../../../../hooks/useLogout";
 import MenuItem from "./MenuItem";
 
 interface MenuItemsProps {
   onNavigate?: () => void;
 }
 
-export default function MenuItems(props: MenuItemsProps) {
-  const { onNavigate } = props;
-
+export default function MenuItems({ onNavigate }: MenuItemsProps) {
   const navigate = useNavigate();
+
+  const logoutMutation = useLogout();
 
   const items = [
     { name: "Conversas", path: "/conversations", icon: <MdChatBubble /> },
     { name: "Amigos", path: "/friendships", icon: <MdGroups /> },
   ];
 
-  async function handleLogout() {
-    try {
-      await logout();
-      removeToken();
-      navigate("/login");
-    } catch (error) {
-      handleErrors(error);
-    }
+  function handleLogout() {
+    logoutMutation.mutate(undefined, {
+      onSettled: () => {
+        navigate("/login");
+      },
+    });
   }
 
   return (
@@ -42,7 +38,11 @@ export default function MenuItems(props: MenuItemsProps) {
         />
       ))}
 
-      <button onClick={handleLogout} className="button-logout">
+      <button
+        onClick={handleLogout}
+        className="button-logout"
+        disabled={logoutMutation.isPending}
+      >
         SAIR
       </button>
     </nav>

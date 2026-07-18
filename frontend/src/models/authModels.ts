@@ -7,6 +7,14 @@ export type SuccessAuthModel = {
   token: string;
 };
 
+export type MeModel = {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
+  avatar: string;
+};
+
 export type RegisterModel = {
   name: string;
   email: string;

@@ -1,13 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { MdEmail, MdLock } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 
 import { BrandIcon } from "../../components/BrandIcon";
-import { handleSuccessAuth } from "../../functions/auth";
-import { auth } from "../../requests/authRequests";
-import { handleErrors } from "../../requests/handleErrors";
+import { useLogin } from "../../hooks/useLogin";
 import {
   loginSchemaData,
   LoginSchemaType,
@@ -18,6 +15,10 @@ import AuthInput from "./components/AuthInput";
 import AuthSubmitButton from "./components/AuthSubmitButton";
 
 export default function Login() {
+  const navigate = useNavigate();
+
+  const loginMutation = useLogin();
+
   const {
     register,
     handleSubmit,
@@ -26,22 +27,10 @@ export default function Login() {
     resolver: zodResolver(loginSchemaData),
   });
 
-  const navigate = useNavigate();
-  const [logging, setLogging] = useState<boolean>(false);
+  async function onSubmit(data: LoginSchemaType) {
+    await loginMutation.mutateAsync(data);
 
-  async function onSubmit(data: LoginSchemaType): Promise<void> {
-    setLogging(true);
-
-    try {
-      const loginResponse = await auth(data);
-
-      handleSuccessAuth(loginResponse.data);
-      navigate("/conversations");
-    } catch (error) {
-      handleErrors(error);
-    } finally {
-      setLogging(false);
-    }
+    navigate("/conversations");
   }
 
   return (
@@ -69,7 +58,7 @@ export default function Login() {
           />
         </div>
 
-        <AuthSubmitButton text="Entrar" disabled={logging} />
+        <AuthSubmitButton text="Entrar" disabled={loginMutation.isPending} />
 
         <span className="text-center text-sm text-secondary-text">
           Ainda não tem uma conta?{" "}
