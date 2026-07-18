@@ -18,18 +18,20 @@ class DevelopmentSeeder extends Seeder
     {
         $this->command->info('Creating users...');
 
+        $password = Hash::make('user123456');
+
         $users[] = User::factory()->withAvatar()->create([
             'name' => 'Juninho',
             'username' => 'junin_99',
             'email' => 'juninho@email.com',
-            'password' => Hash::make('juninho99'),
+            'password' => $password,
         ]);
 
         $users[] = User::factory()->create([
             'name' => 'Jão',
             'username' => 'jao_99',
             'email' => 'jao@email.com',
-            'password' => Hash::make('jaozin99'),
+            'password' => $password,
         ]);
 
         $this->command->info('Trying to make friends...');
